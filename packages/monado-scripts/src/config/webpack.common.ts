@@ -1,13 +1,19 @@
 import { Configuration } from 'webpack';
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import HTMLWebpackPlugin from 'html-webpack-plugin';
 const WebpackCommonConfig: Configuration = {
-	mode: 'production',
-	entry: path.resolve(process.cwd(), 'src/index.ts'),
+	mode: 'development',
+	entry: path.resolve(process.cwd(), 'src/index.tsx'),
+	devtool: 'cheap-module-source-map',
+	target: 'web',
 	output: {
 		clean: true,
 		filename: 'bundle-[contenthash:8].js',
 		path: path.resolve(process.cwd(), 'dist'),
+	},
+	resolve: {
+		extensions: ['.ts', '.js', '.tsx', '.tsx'],
 	},
 	module: {
 		rules: [
@@ -20,7 +26,6 @@ const WebpackCommonConfig: Configuration = {
 			},
 			{
 				test: /\.(jsx?|tsx?)$/,
-				exclude: /node_modules/,
 				include: path.resolve(process.cwd(), 'src'),
 				use: {
 					loader: require.resolve('babel-loader'),
@@ -35,7 +40,12 @@ const WebpackCommonConfig: Configuration = {
 			},
 		],
 	},
-	plugins: [new MiniCssExtractPlugin()],
+	plugins: [
+		new MiniCssExtractPlugin(),
+		new HTMLWebpackPlugin({
+			template: path.resolve(process.cwd(), 'public/index.html'),
+		}),
+	],
 };
 
 export default WebpackCommonConfig;
