@@ -1,0 +1,29 @@
+{
+  "name": "@monado/cli",
+  "version": "0.0.1",
+  "description": "a create react project cli",
+  "main": "lib/index.js",
+  "bin": {
+    "monado": "bin/monado.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react cli"
+  ],
+  "author": "wen",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "chalk": "^5.0.1",
+    "commander": "^9.0.0",
+    "inquirer": "^8.2.1",
+    "ora": "^6.1.0"
+  },
+  "dependencies": {
+    "zx": "^5.2.0"
+  }
+}
