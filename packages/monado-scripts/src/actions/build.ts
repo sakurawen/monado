@@ -5,10 +5,12 @@ const build = () => {
 	const complier = Webpack(WebpackCommonConfig);
 	complier.run((err, stats) => {
 		stats?.toJson('minimal');
-		if (err) console.log(err);
+		if (err) {
+			console.error('build error:', err);
+		}
 		if (stats?.hasErrors()) {
-			console.log(new Error('Build failed with errors.'));
-			console.log('错误：', stats.toString());
+			console.error(new Error('Build failed with errors.'));
+			console.error('stats has error：', stats.toString());
 		}
 		if (stats?.hasWarnings()) {
 			console.warn(stats.hasWarnings());

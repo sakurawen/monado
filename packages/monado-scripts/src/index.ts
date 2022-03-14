@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import build from './actions/build.js';
+import build from './actions/build';
 
 const program = new Command();
 
