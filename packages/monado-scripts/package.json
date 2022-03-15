@@ -1,7 +1,7 @@
 {
   "name": "@monado/scripts",
   "version": "0.0.5",
-  "description": "",
+  "description": "react应用零配置构建工具",
   "main": "index.js",
   "bin": {
     "monado-scripts": "./bin/monado-scripts.js"
