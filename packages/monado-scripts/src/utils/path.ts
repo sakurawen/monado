@@ -8,6 +8,9 @@ const AppResolve = (resolvePath: string) =>
 
 /**
  * 解析应用入口文件名
+ * 优先级
+ * 文件名 index>main
+ * 后缀 .tsx>.ts>.jsx>.js
  */
 const resolveAppEntryName = () => {
 	const files = globby.sync(['**/*'], {
@@ -15,14 +18,14 @@ const resolveAppEntryName = () => {
 	});
 	const entryName = files.find((filename) => {
 		return (
-			filename.includes('index.tsx') ||
-			filename.includes('index.ts') ||
-			filename.includes('main.tsx') ||
-			filename.includes('main.ts') ||
-			filename.includes('index.jsx') ||
-			filename.includes('index.js') ||
-			filename.includes('main.jsx') ||
-			filename.includes('main.js')
+			filename === 'index.tsx' ||
+			filename === 'index.ts' ||
+			filename === 'main.tsx' ||
+			filename === 'main.ts' ||
+			filename === 'index.jsx' ||
+			filename === 'index.js' ||
+			filename === 'main.jsx' ||
+			filename === 'main.js'
 		);
 	});
 	return entryName || 'index.tsx';
