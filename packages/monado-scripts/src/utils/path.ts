@@ -1,7 +1,8 @@
 import path from 'path';
 import fs from 'fs';
-export const AppDirectory = fs.realpathSync(process.cwd());
 import globby from 'globby';
+
+export const AppDirectory = fs.realpathSync(process.cwd());
 
 const AppResolve = (resolvePath: string) =>
 	path.resolve(AppDirectory, resolvePath);
