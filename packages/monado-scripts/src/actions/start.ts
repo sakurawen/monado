@@ -1,7 +1,9 @@
 import Webpack from 'webpack';
-import getWebpackCommonConfig from '../config/webpack.common';
+import {
+	getWebpackCommonConfig,
+	webpackDevConfiguration,
+} from '../config/webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import webpackDevConfiguration from '../config/webpack.dev';
 import { merge } from 'webpack-merge';
 
 const devServerConfig = {

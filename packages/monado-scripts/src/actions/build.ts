@@ -1,13 +1,18 @@
-import getWebpackCommonConfig from '../config/webpack.common.js';
-import webpackProdConfiguration from '../config/webpack.prod';
+import {
+	getWebpackCommonConfig,
+	webpackProdConfiguration,
+} from '../config/webpack';
 import Webpack from 'webpack';
-import {merge} from "webpack-merge"
+import { merge } from 'webpack-merge';
 
 /**
  * 启动打包
  */
 const build = () => {
-  const conf = merge(getWebpackCommonConfig({ isDev: false }),webpackProdConfiguration)
+	const conf = merge(
+		getWebpackCommonConfig({ isDev: false }),
+		webpackProdConfiguration
+	);
 	const complier = Webpack(conf);
 	complier.run((err, stats) => {
 		stats?.toJson('minimal');

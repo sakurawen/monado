@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 /**
- * 获取包版本号
+ * 获取版本号
  * @returns
  */
 export const getPackageVersion = () => {
