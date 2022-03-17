@@ -3,9 +3,12 @@
 		"es6": true,
 		"node": true
 	},
-  "root": true,
+	"root": true,
 	"parser": "@typescript-eslint/parser",
-	"extends": ["eslint:recommended"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended"
+	],
 	"globals": {
 		"Atomics": "readonly",
 		"SharedArrayBuffer": "readonly"

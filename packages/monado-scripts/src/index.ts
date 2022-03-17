@@ -2,7 +2,6 @@ import { Command } from 'commander';
 import { getPackageVersion } from './constants';
 import build from './actions/build.js';
 import start from './actions/start.js';
-
 const program = new Command();
 program.version(getPackageVersion());
 program
