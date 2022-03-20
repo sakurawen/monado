@@ -1,14 +1,14 @@
 {
   "name": "@monado/cli",
   "version": "0.0.1",
-  "description": "a create react project cli",
+  "description": "创建react项目的脚手架",
   "main": "lib/index.js",
   "bin": {
     "monado": "bin/monado.js"
   },
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./lib&&tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,6 +24,7 @@
     "ora": "^6.1.0"
   },
   "dependencies": {
+    "download-git-repo": "^3.0.2",
     "zx": "^5.2.0"
   }
 }

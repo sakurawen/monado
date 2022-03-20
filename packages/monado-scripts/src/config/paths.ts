@@ -2,9 +2,15 @@ import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
 
+// 应用根文件夹
 export const AppDirectory = fs.realpathSync(process.cwd());
 
-const AppResolve = (resolvePath: string) =>
+/**
+ *
+ * @param resolvePath 解析路径
+ * @returns
+ */
+const resolveApp = (resolvePath: string) =>
 	path.resolve(AppDirectory, resolvePath);
 
 /**
@@ -33,9 +39,9 @@ const resolveAppEntryName = () => {
 };
 
 export default {
-	appEntry: AppResolve(`src/${resolveAppEntryName()}`),
-	appOutput: AppResolve('dist'),
-	appPublicDirectory: AppResolve('public'),
-	appSrc: AppResolve('src'),
-	appHTMLTemplate: AppResolve('public/index.html'),
+	appEntry: resolveApp(`src/${resolveAppEntryName()}`),
+	appOutput: resolveApp('dist'),
+	appPublicDirectory: resolveApp('public'),
+	appSrc: resolveApp('src'),
+	appHTMLTemplate: resolveApp('public/index.html'),
 };

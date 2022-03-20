@@ -1,8 +1,5 @@
 import Webpack from 'webpack';
-import {
-	getWebpackCommonConfig,
-	webpackDevConfiguration,
-} from '../config/webpack';
+import { webpackConfig, webpackDevConfig } from '../config/webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { merge } from 'webpack-merge';
 
@@ -17,10 +14,8 @@ const devServerConfig = {
  * 启动开发服务器
  */
 const start = () => {
-	const conf = merge(
-		getWebpackCommonConfig({ isDev: true }),
-		webpackDevConfiguration
-	);
+	process.env.NODE_ENV = 'development';
+	const conf = merge(webpackConfig(), webpackDevConfig);
 	const complier = Webpack(conf);
 	const devServer = new WebpackDevServer(devServerConfig, complier);
 	devServer.startCallback(() => {

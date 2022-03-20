@@ -18,6 +18,7 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"no-console": "warn"
+		"semi": ["error","always"],
+		"no-console": "off"
 	}
 }

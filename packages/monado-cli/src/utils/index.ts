@@ -1,4 +1,4 @@
-import create from './create.js';
+import create from '../actions/create.js';
 import ora from 'ora';
 import chalk from 'chalk';
 

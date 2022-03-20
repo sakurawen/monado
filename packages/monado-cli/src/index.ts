@@ -11,7 +11,7 @@ type Action = {
 };
 
 const actionsMap: Record<string, Action> = {
-	create: {
+	'create <projectName>': {
 		alias: 'crt',
 		desc: 'create react template',
 		examples: ['monado create|crt <projectName>'],
@@ -28,18 +28,19 @@ Object.keys(actionsMap).forEach((action) => {
 		.command(action)
 		.alias(actionsMap[action].alias)
 		.description(actionsMap[action].desc)
-		.action(() => {
-			run(action);
+		.action((argv: string) => {
+			run(argv);
 		});
 });
 
 program.on('--help', () => {
-	console.log('Examples:');
+	console.log('\nExamples:');
 	Object.keys(actionsMap).forEach((action) => {
 		actionsMap[action].examples.forEach((item) => {
 			console.log('  ' + item);
 		});
 	});
+	console.log('\n');
 });
 
 program.version(getVersion()).parse(process.argv);

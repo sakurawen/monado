@@ -1,3 +1,3 @@
-export { default as getWebpackCommonConfig } from './webpack.common';
-export { default as webpackDevConfiguration } from './webpack.dev';
-export { default as webpackProdConfiguration } from './webpack.prod';
+export { default as webpackConfig } from './webpack.config';
+export { default as webpackDevConfig } from './webpack.dev';
+export { default as webpackProdConfig } from './webpack.prod';
