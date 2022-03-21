@@ -1,11 +1,36 @@
 import { Configuration } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
-import Webpackbar from 'webpackbar';
 import paths from '../paths';
 
 const webpackCommonConfig = (): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
+
+	const getStyleloaders = (
+		cssLoaderOptions: string | { [key: string]: any }
+	) => {
+		const loaders = [
+			{
+				loader: isDevelopment
+					? require.resolve('style-loader')
+					: MiniCssExtractPlugin.loader,
+			},
+			{
+				loader: require.resolve('css-loader'),
+				options: cssLoaderOptions,
+			},
+			{
+				loader: require.resolve('postcss-loader'),
+				options: {
+					postcssOptions: {
+						plugins: [require.resolve('postcss-preset-env')],
+					},
+				},
+			},
+		];
+		return loaders;
+	};
+
 	return {
 		entry: paths.appEntry,
 		target: 'web',
@@ -20,14 +45,14 @@ const webpackCommonConfig = (): Configuration => {
 		module: {
 			rules: [
 				{
-					test: /\.(png|jpe?g|gif|ico|svg)$/,
+					test: /\.(png|jpe?g|gif|ico|svg)$/i,
 					type: 'asset/resource',
 					generator: {
 						filename: 'static/image/[name]-[contenthash:6][ext]',
 					},
 				},
 				{
-					test: /\.(woff|woff2|ttf|eot)$/,
+					test: /\.(woff|woff2|ttf|eot)$/i,
 					type: 'asset/resource',
 					generator: {
 						filename: 'static/font/[name]-[contenthash:6][ext]',
@@ -35,26 +60,31 @@ const webpackCommonConfig = (): Configuration => {
 				},
 				{
 					test: /\.css$/i,
-					use: [
-						{ loader: MiniCssExtractPlugin.loader },
-						{
-							loader: require.resolve('css-loader'),
-							options: {
-								esModule: false,
-							},
+					exclude: /\.module\.css$/,
+					use: getStyleloaders({
+						modules: {
+							mode: 'icss',
 						},
-						{
-							loader: require.resolve('postcss-loader'),
-							options: {
-								postcssOptions: {
-									plugins: [require.resolve('postcss-preset-env')],
-								},
-							},
-						},
-					],
+						sourceMap: isDevelopment,
+						importLoaders: 1,
+						esModule: true,
+					}),
 				},
 				{
-					test: /\.(jsx?|tsx?)$/,
+					test: /\.module\.css$/,
+					use: getStyleloaders({
+						modules: {
+							auto: true,
+							mode: 'local',
+							localIdentName: '[local]--[hash:base64:6]',
+						},
+						sourceMap: isDevelopment,
+						importLoaders: 1,
+						esModule: true,
+					}),
+				},
+				{
+					test: /\.(jsx?|tsx?)$/i,
 					include: paths.appSrc,
 					use: {
 						loader: require.resolve('babel-loader'),
@@ -81,7 +111,6 @@ const webpackCommonConfig = (): Configuration => {
 			new MiniCssExtractPlugin({
 				filename: 'static/css/[name]-[contenthash:6].css',
 			}),
-			new Webpackbar(),
 			new HTMLWebpackPlugin({
 				template: paths.appHTMLTemplate,
 			}),

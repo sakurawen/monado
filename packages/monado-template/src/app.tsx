@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import style from './index.module.css';
 const App: FC = () => {
 	return (
 		<div>
-			<h1>are you ok?</h1>
+			<h1 className={style.wuhu}>are you ok?</h1>
 			<img
 				style={{
 					height: 140,

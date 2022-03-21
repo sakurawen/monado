@@ -56,6 +56,7 @@ importers:
       postcss-preset-env: ^7.4.2
       react-refresh: ^0.11.0
       rimraf: ^3.0.2
+      style-loader: ^3.3.1
       terser-webpack-plugin: ^5.3.1
       webpack: ^5.70.0
       webpack-cli: ^4.9.2
@@ -84,6 +85,7 @@ importers:
       postcss-preset-env: 7.4.2_postcss@8.4.12
       react-refresh: 0.11.0
       rimraf: 3.0.2
+      style-loader: 3.3.1_webpack@5.70.0
       terser-webpack-plugin: 5.3.1_esbuild@0.14.27+webpack@5.70.0
       webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
       webpack-cli: registry.npmmirror.com/webpack-cli/4.9.2_6d3cb84eb7e855ae6fc0a3ee585c0c26
@@ -5282,6 +5284,15 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       escape-string-regexp: 1.0.5
+    dev: false
+
+  /style-loader/3.3.1_webpack@5.70.0:
+    resolution: {integrity: sha512-GPcQ+LDJbrcxHORTRes6Jy2sfvK2kS6hpSfI/fXhPt+spVzxF6LJ1dHLN9zIGmVaaP044YKaIatFaufENRiDoQ==}
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /stylehacks/5.1.0_postcss@8.4.12:

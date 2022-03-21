@@ -2,6 +2,8 @@ import { Configuration } from 'webpack';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import Webpackbar from 'webpackbar';
+
 
 const webpackProdConfiguration: Configuration = {
 	mode: 'production',
@@ -21,7 +23,9 @@ const webpackProdConfiguration: Configuration = {
 			new CssMinimizerPlugin(),
 		],
 	},
-	plugins: [],
+	plugins: [
+			new Webpackbar(),
+  ],
 };
 
 export default webpackProdConfiguration;
