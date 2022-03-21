@@ -7,7 +7,8 @@ const webpackCommonConfig = (): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 
 	const getStyleloaders = (
-		cssLoaderOptions: string | { [key: string]: any }
+		cssLoaderOptions: string | { [key: string]: any },
+		preProcessor?: string
 	) => {
 		const loaders = [
 			{
@@ -28,6 +29,23 @@ const webpackCommonConfig = (): Configuration => {
 				},
 			},
 		];
+		if (preProcessor) {
+			loaders.push(
+				{
+					loader: require.resolve('resolve-url-loader'),
+					options: {
+						sourceMap: isDevelopment,
+						root: paths.appSrc,
+					},
+				},
+				{
+					loader: require.resolve(preProcessor),
+					options: {
+						sourceMap: true,
+					},
+				}
+			);
+		}
 		return loaders;
 	};
 
@@ -52,19 +70,19 @@ const webpackCommonConfig = (): Configuration => {
 					},
 				},
 				{
-					test: /.svg$/i,
+					test: /\.svg$/i,
 					use: [
 						{
 							loader: require.resolve('@svgr/webpack'),
-              options: {
-                prettier: false,
-                svgo: false,
-                svgoConfig: {
-                  plugins: [{ removeViewBox: false }],
-                },
-                titleProp: true,
-                ref: true,
-              },
+							options: {
+								prettier: false,
+								svgo: false,
+								svgoConfig: {
+									plugins: [{ removeViewBox: false }],
+								},
+								titleProp: true,
+								ref: true,
+							},
 						},
 						{
 							loader: require.resolve('file-loader'),
@@ -73,9 +91,9 @@ const webpackCommonConfig = (): Configuration => {
 							},
 						},
 					],
-          issuer: {
-            and: [/\.(ts?x|js?x|md|mdx)$/],
-          },
+					issuer: {
+						and: [/\.(ts?x|js?x|md|mdx)$/],
+					},
 				},
 				{
 					test: /\.(woff|woff2|ttf|eot)$/i,
@@ -108,6 +126,35 @@ const webpackCommonConfig = (): Configuration => {
 						importLoaders: 1,
 						esModule: true,
 					}),
+				},
+				{
+					test: /\.(sass|scss)$/i,
+          exclude: /\.module\.(sass|scss)$/,
+					use: getStyleloaders(
+						{
+							modules: {
+								mode: 'icss',
+							},
+							sourceMap: isDevelopment,
+							importLoaders: 3,
+						},
+						'sass-loader'
+					),
+				},
+				{
+					test: /\.module\.(sass|scss)$/i,
+					use: getStyleloaders(
+						{
+							modules: {
+								auto: true,
+								mode: 'local',
+								localIdentName: '[local]-[hash:base64:6]',
+							},
+							sourceMap: isDevelopment,
+							importLoaders: 3,
+						},
+						'sass-loader'
+					),
 				},
 				{
 					test: /\.(jsx?|tsx?)$/i,
