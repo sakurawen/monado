@@ -45,11 +45,37 @@ const webpackCommonConfig = (): Configuration => {
 		module: {
 			rules: [
 				{
-					test: /\.(png|jpe?g|gif|ico|svg)$/i,
+					test: /\.(png|jpe?g|gif|ico)$/i,
 					type: 'asset/resource',
 					generator: {
 						filename: 'static/image/[name]-[contenthash:6][ext]',
 					},
+				},
+				{
+					test: /.svg$/i,
+					use: [
+						{
+							loader: require.resolve('@svgr/webpack'),
+              options: {
+                prettier: false,
+                svgo: false,
+                svgoConfig: {
+                  plugins: [{ removeViewBox: false }],
+                },
+                titleProp: true,
+                ref: true,
+              },
+						},
+						{
+							loader: require.resolve('file-loader'),
+							options: {
+								name: 'static/image/[name]-[contenthash:6].[ext]',
+							},
+						},
+					],
+          issuer: {
+            and: [/\.(ts?x|js?x|md|mdx)$/],
+          },
 				},
 				{
 					test: /\.(woff|woff2|ttf|eot)$/i,
