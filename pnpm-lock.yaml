@@ -45,6 +45,7 @@ importers:
       commander: ^9.0.0
       css-loader: ^6.7.1
       css-minimizer-webpack-plugin: ^3.4.1
+      esbuild: ^0.14.27
       fork-ts-checker-webpack-plugin: ^7.2.1
       fs-extra: ^10.0.1
       globby: 11.1.0
@@ -55,6 +56,7 @@ importers:
       postcss-preset-env: ^7.4.2
       react-refresh: ^0.11.0
       rimraf: ^3.0.2
+      terser-webpack-plugin: ^5.3.1
       webpack: ^5.70.0
       webpack-cli: ^4.9.2
       webpack-dev-server: ^4.7.4
@@ -70,7 +72,8 @@ importers:
       babel-loader: 8.2.3_ed870ac3ba52c4ec230ba2bc3dbb311c
       commander: registry.npmmirror.com/commander/9.0.0
       css-loader: 6.7.1_webpack@5.70.0
-      css-minimizer-webpack-plugin: 3.4.1_webpack@5.70.0
+      css-minimizer-webpack-plugin: 3.4.1_esbuild@0.14.27+webpack@5.70.0
+      esbuild: 0.14.27
       fork-ts-checker-webpack-plugin: 7.2.1_typescript@4.6.2+webpack@5.70.0
       fs-extra: 10.0.1
       globby: 11.1.0
@@ -81,7 +84,8 @@ importers:
       postcss-preset-env: 7.4.2_postcss@8.4.12
       react-refresh: 0.11.0
       rimraf: 3.0.2
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      terser-webpack-plugin: 5.3.1_esbuild@0.14.27+webpack@5.70.0
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
       webpack-cli: registry.npmmirror.com/webpack-cli/4.9.2_6d3cb84eb7e855ae6fc0a3ee585c0c26
       webpack-dev-server: registry.npmmirror.com/webpack-dev-server/4.7.4_webpack-cli@4.9.2+webpack@5.70.0
       webpack-merge: 5.8.0
@@ -89,16 +93,14 @@ importers:
 
   packages/monado-template:
     specifiers:
-      '@monado/scripts': workspace:^0.0.7
       '@types/react': ^17.0.41
       '@types/react-dom': ^17.0.14
       react: ^17.0.2
       react-dom: ^17.0.2
     dependencies:
-      '@monado/scripts': link:../monado-scripts
-    devDependencies:
       '@types/react': 17.0.41
       '@types/react-dom': 17.0.14
+    devDependencies:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
 
@@ -1500,7 +1502,7 @@ packages:
       react-refresh: 0.11.0
       schema-utils: 3.1.1
       source-map: 0.7.3
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
       webpack-dev-server: registry.npmmirror.com/webpack-dev-server/4.7.4_webpack-cli@4.9.2+webpack@5.70.0
     dev: false
 
@@ -1538,13 +1540,13 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
-    dev: true
+    dev: false
 
   /@types/react-dom/17.0.14:
     resolution: {integrity: sha512-H03xwEP1oXmSfl3iobtmQ/2dHF5aBHr8aUMwyGZya6OW45G+xtdzmq6HkncefiBt5JU8DVyaWl/nWZbjZCnzAQ==}
     dependencies:
       '@types/react': 17.0.41
-    dev: true
+    dev: false
 
   /@types/react/17.0.41:
     resolution: {integrity: sha512-chYZ9ogWUodyC7VUTRBfblysKLjnohhFY9bGLwvnUFFy48+vB9DikmB3lW0qTFmBcKSzmdglcvkHK71IioOlDA==}
@@ -1552,11 +1554,11 @@ packages:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
       csstype: 3.0.11
-    dev: true
+    dev: false
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: true
+    dev: false
 
   /@typescript-eslint/eslint-plugin/5.15.0_e106ea416eeccbe29a88a06eace767f0:
     resolution: {integrity: sha512-u6Db5JfF0Esn3tiAKELvoU5TpXVSkOpZ78cEGn/wXtT2RVqs2vkt4ge6N8cRCyw7YVKhmmLDbwI2pg92mlv7cA==}
@@ -1847,7 +1849,7 @@ packages:
       loader-utils: 1.4.0
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /babel-plugin-dynamic-import-node/2.3.3:
@@ -2274,10 +2276,10 @@ packages:
       postcss-modules-values: 4.0.0_postcss@8.4.12
       postcss-value-parser: 4.2.0
       semver: 7.3.5
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
-  /css-minimizer-webpack-plugin/3.4.1_webpack@5.70.0:
+  /css-minimizer-webpack-plugin/3.4.1_esbuild@0.14.27+webpack@5.70.0:
     resolution: {integrity: sha512-1u6D71zeIfgngN2XNRJefc/hY7Ybsxd74Jm4qngIXyUEk7fss3VUzuHxLAq/R8NAba4QU9OUSaMZlbpRc7bM4Q==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
@@ -2297,12 +2299,13 @@ packages:
         optional: true
     dependencies:
       cssnano: 5.1.4_postcss@8.4.12
+      esbuild: 0.14.27
       jest-worker: 27.5.1
       postcss: 8.4.12
       schema-utils: 4.0.0
       serialize-javascript: 6.0.0
       source-map: 0.6.1
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /css-prefers-color-scheme/6.0.3_postcss@8.4.12:
@@ -2416,7 +2419,7 @@ packages:
 
   /csstype/3.0.11:
     resolution: {integrity: sha512-sa6P2wJ+CAbgyy4KFssIb/JNMLxFvKF1pCYCSXS8ZMuqZnMsrxqI2E5sPyoTpxoPU/gVZMzr2zjOfg8GIZOMsw==}
-    dev: true
+    dev: false
 
   /debug/4.3.3:
     resolution: {integrity: sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==}
@@ -2632,6 +2635,214 @@ packages:
     resolution: {integrity: sha512-chLOW0ZGRf4s8raLrDxa5sdkvPec5YdvwbFnqJme4rk0rFajP8mPtrDL1+I+CwrQDCjswDA5sREX7jYQDQs9vA==}
     dependencies:
       stackframe: 1.2.1
+    dev: false
+
+  /esbuild-android-64/0.14.27:
+    resolution: {integrity: sha512-LuEd4uPuj/16Y8j6kqy3Z2E9vNY9logfq8Tq+oTE2PZVuNs3M1kj5Qd4O95ee66yDGb3isaOCV7sOLDwtMfGaQ==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-android-arm64/0.14.27:
+    resolution: {integrity: sha512-E8Ktwwa6vX8q7QeJmg8yepBYXaee50OdQS3BFtEHKrzbV45H4foMOeEE7uqdjGQZFBap5VAqo7pvjlyA92wznQ==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-darwin-64/0.14.27:
+    resolution: {integrity: sha512-czw/kXl/1ZdenPWfw9jDc5iuIYxqUxgQ/Q+hRd4/3udyGGVI31r29LCViN2bAJgGvQkqyLGVcG03PJPEXQ5i2g==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-darwin-arm64/0.14.27:
+    resolution: {integrity: sha512-BEsv2U2U4o672oV8+xpXNxN9bgqRCtddQC6WBh4YhXKDcSZcdNh7+6nS+DM2vu7qWIWNA4JbRG24LUUYXysimQ==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-freebsd-64/0.14.27:
+    resolution: {integrity: sha512-7FeiFPGBo+ga+kOkDxtPmdPZdayrSzsV9pmfHxcyLKxu+3oTcajeZlOO1y9HW+t5aFZPiv7czOHM4KNd0tNwCA==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-freebsd-arm64/0.14.27:
+    resolution: {integrity: sha512-8CK3++foRZJluOWXpllG5zwAVlxtv36NpHfsbWS7TYlD8S+QruXltKlXToc/5ZNzBK++l6rvRKELu/puCLc7jA==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-32/0.14.27:
+    resolution: {integrity: sha512-qhNYIcT+EsYSBClZ5QhLzFzV5iVsP1YsITqblSaztr3+ZJUI+GoK8aXHyzKd7/CKKuK93cxEMJPpfi1dfsOfdw==}
+    engines: {node: '>=12'}
+    cpu: [ia32]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-64/0.14.27:
+    resolution: {integrity: sha512-ESjck9+EsHoTaKWlFKJpPZRN26uiav5gkI16RuI8WBxUdLrrAlYuYSndxxKgEn1csd968BX/8yQZATYf/9+/qg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-arm/0.14.27:
+    resolution: {integrity: sha512-JnnmgUBdqLQO9hoNZQqNHFWlNpSX82vzB3rYuCJMhtkuaWQEmQz6Lec1UIxJdC38ifEghNTBsF9bbe8dFilnCw==}
+    engines: {node: '>=12'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-arm64/0.14.27:
+    resolution: {integrity: sha512-no6Mi17eV2tHlJnqBHRLekpZ2/VYx+NfGxKcBE/2xOMYwctsanCaXxw4zapvNrGE9X38vefVXLz6YCF8b1EHiQ==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-mips64le/0.14.27:
+    resolution: {integrity: sha512-NolWP2uOvIJpbwpsDbwfeExZOY1bZNlWE/kVfkzLMsSgqeVcl5YMen/cedRe9mKnpfLli+i0uSp7N+fkKNU27A==}
+    engines: {node: '>=12'}
+    cpu: [mips64el]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-ppc64le/0.14.27:
+    resolution: {integrity: sha512-/7dTjDvXMdRKmsSxKXeWyonuGgblnYDn0MI1xDC7J1VQXny8k1qgNp6VmrlsawwnsymSUUiThhkJsI+rx0taNA==}
+    engines: {node: '>=12'}
+    cpu: [ppc64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-riscv64/0.14.27:
+    resolution: {integrity: sha512-D+aFiUzOJG13RhrSmZgrcFaF4UUHpqj7XSKrIiCXIj1dkIkFqdrmqMSOtSs78dOtObWiOrFCDDzB24UyeEiNGg==}
+    engines: {node: '>=12'}
+    cpu: [riscv64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-linux-s390x/0.14.27:
+    resolution: {integrity: sha512-CD/D4tj0U4UQjELkdNlZhQ8nDHU5rBn6NGp47Hiz0Y7/akAY5i0oGadhEIg0WCY/HYVXFb3CsSPPwaKcTOW3bg==}
+    engines: {node: '>=12'}
+    cpu: [s390x]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-netbsd-64/0.14.27:
+    resolution: {integrity: sha512-h3mAld69SrO1VoaMpYl3a5FNdGRE/Nqc+E8VtHOag4tyBwhCQXxtvDDOAKOUQexBGca0IuR6UayQ4ntSX5ij1Q==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [netbsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-openbsd-64/0.14.27:
+    resolution: {integrity: sha512-xwSje6qIZaDHXWoPpIgvL+7fC6WeubHHv18tusLYMwL+Z6bEa4Pbfs5IWDtQdHkArtfxEkIZz77944z8MgDxGw==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [openbsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-sunos-64/0.14.27:
+    resolution: {integrity: sha512-/nBVpWIDjYiyMhuqIqbXXsxBc58cBVH9uztAOIfWShStxq9BNBik92oPQPJ57nzWXRNKQUEFWr4Q98utDWz7jg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [sunos]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-windows-32/0.14.27:
+    resolution: {integrity: sha512-Q9/zEjhZJ4trtWhFWIZvS/7RUzzi8rvkoaS9oiizkHTTKd8UxFwn/Mm2OywsAfYymgUYm8+y2b+BKTNEFxUekw==}
+    engines: {node: '>=12'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-windows-64/0.14.27:
+    resolution: {integrity: sha512-b3y3vTSl5aEhWHK66ngtiS/c6byLf6y/ZBvODH1YkBM+MGtVL6jN38FdHUsZasCz9gFwYs/lJMVY9u7GL6wfYg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild-windows-arm64/0.14.27:
+    resolution: {integrity: sha512-I/reTxr6TFMcR5qbIkwRGvldMIaiBu2+MP0LlD7sOlNXrfqIl9uNjsuxFPGEG4IRomjfQ5q8WT+xlF/ySVkqKg==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /esbuild/0.14.27:
+    resolution: {integrity: sha512-MZQt5SywZS3hA9fXnMhR22dv0oPGh6QtjJRIYbgL1AeqAoQZE+Qn5ppGYQAoHv/vq827flj4tIJ79Mrdiwk46Q==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      esbuild-android-64: 0.14.27
+      esbuild-android-arm64: 0.14.27
+      esbuild-darwin-64: 0.14.27
+      esbuild-darwin-arm64: 0.14.27
+      esbuild-freebsd-64: 0.14.27
+      esbuild-freebsd-arm64: 0.14.27
+      esbuild-linux-32: 0.14.27
+      esbuild-linux-64: 0.14.27
+      esbuild-linux-arm: 0.14.27
+      esbuild-linux-arm64: 0.14.27
+      esbuild-linux-mips64le: 0.14.27
+      esbuild-linux-ppc64le: 0.14.27
+      esbuild-linux-riscv64: 0.14.27
+      esbuild-linux-s390x: 0.14.27
+      esbuild-netbsd-64: 0.14.27
+      esbuild-openbsd-64: 0.14.27
+      esbuild-sunos-64: 0.14.27
+      esbuild-windows-32: 0.14.27
+      esbuild-windows-64: 0.14.27
+      esbuild-windows-arm64: 0.14.27
     dev: false
 
   /escalade/3.1.1:
@@ -2961,7 +3172,7 @@ packages:
       semver: 7.3.5
       tapable: 2.2.1
       typescript: registry.npmmirror.com/typescript/4.6.2
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /fraction.js/4.2.0:
@@ -3178,7 +3389,7 @@ packages:
       lodash: 4.17.21
       pretty-error: 4.0.0
       tapable: 2.2.1
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /htmlparser2/6.1.0:
@@ -3618,7 +3829,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: 4.0.0
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /minimatch/3.1.2:
@@ -4166,7 +4377,7 @@ packages:
       klona: 2.0.5
       postcss: 8.4.12
       semver: 7.3.5
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /postcss-logical/5.0.4_postcss@8.4.12:
@@ -5152,6 +5363,31 @@ packages:
       xtend: 4.0.2
     dev: false
 
+  /terser-webpack-plugin/5.3.1_esbuild@0.14.27+webpack@5.70.0:
+    resolution: {integrity: sha512-GvlZdT6wPQKbDNW/GDQzZFg/j4vKU96yl2q6mcUkzKOgW4gwf1Z8cZToUCrz31XHlPWH8MVb1r2tFtdDtTGJ7g==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      esbuild: 0.14.27
+      jest-worker: 27.5.1
+      schema-utils: 3.1.1
+      serialize-javascript: 6.0.0
+      source-map: 0.6.1
+      terser: 5.12.0
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
+    dev: false
+
   /terser/5.12.0:
     resolution: {integrity: sha512-R3AUhNBGWiFc77HXag+1fXpAxTAFRQTJemlJKjAgD9r8xXTpjNKqIXwHM/o7Rh+O0kUJtS3WQVdBeMKFk5sw9A==}
     engines: {node: '>=10'}
@@ -5320,7 +5556,7 @@ packages:
       consola: 2.15.3
       pretty-time: 1.1.0
       std-env: 3.0.1
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   /which/1.3.1:
@@ -5808,7 +6044,7 @@ packages:
       webpack: 4.x.x || 5.x.x
       webpack-cli: 4.x.x
     dependencies:
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
       webpack-cli: registry.npmmirror.com/webpack-cli/4.9.2_6d3cb84eb7e855ae6fc0a3ee585c0c26
     dev: false
 
@@ -6097,12 +6333,6 @@ packages:
       picocolors: registry.npmmirror.com/picocolors/1.0.0
     dev: false
 
-  registry.npmmirror.com/buffer-from/1.1.2:
-    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/buffer-from/-/buffer-from-1.1.2.tgz}
-    name: buffer-from
-    version: 1.1.2
-    dev: false
-
   registry.npmmirror.com/buffer-indexof/1.1.1:
     resolution: {integrity: sha512-4/rOEg86jivtPTeOUUT61jJO1Ya1TrR/OkqCSZDyq84WJh3LuuiphBYJN+fm5xufIk4XAFcEwte/8WzC8If/1g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/buffer-indexof/-/buffer-indexof-1.1.1.tgz}
     name: buffer-indexof
@@ -6267,12 +6497,6 @@ packages:
     resolution: {integrity: sha512-hUewv7oMjCp+wkBv5Rm0v87eJhq4woh5rSR+42YSQJKecCqgIqNkZ6lAlQms/BwHPJA5NKMRlpxPRv0n8HQW6g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/colorette/-/colorette-2.0.16.tgz}
     name: colorette
     version: 2.0.16
-    dev: false
-
-  registry.npmmirror.com/commander/2.20.3:
-    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/commander/-/commander-2.20.3.tgz}
-    name: commander
-    version: 2.20.3
     dev: false
 
   registry.npmmirror.com/commander/7.2.0:
@@ -7301,17 +7525,6 @@ packages:
     version: 2.0.0
     dev: false
 
-  registry.npmmirror.com/jest-worker/27.5.1:
-    resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jest-worker/-/jest-worker-27.5.1.tgz}
-    name: jest-worker
-    version: 27.5.1
-    engines: {node: '>= 10.13.0'}
-    dependencies:
-      '@types/node': registry.npmmirror.com/@types/node/17.0.21
-      merge-stream: registry.npmmirror.com/merge-stream/2.0.0
-      supports-color: registry.npmmirror.com/supports-color/8.1.1
-    dev: false
-
   registry.npmmirror.com/json-parse-better-errors/1.0.2:
     resolution: {integrity: sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz}
     name: json-parse-better-errors
@@ -7834,14 +8047,6 @@ packages:
     version: 1.2.3
     dev: false
 
-  registry.npmmirror.com/randombytes/2.1.0:
-    resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/randombytes/-/randombytes-2.1.0.tgz}
-    name: randombytes
-    version: 2.1.0
-    dependencies:
-      safe-buffer: registry.npmmirror.com/safe-buffer/5.2.1
-    dev: false
-
   registry.npmmirror.com/range-parser/1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/range-parser/-/range-parser-1.2.1.tgz}
     name: range-parser
@@ -8085,14 +8290,6 @@ packages:
       statuses: registry.npmmirror.com/statuses/1.5.0
     dev: false
 
-  registry.npmmirror.com/serialize-javascript/6.0.0:
-    resolution: {integrity: sha512-Qr3TosvguFt8ePWqsvRfrKyQXIiW+nGbYpy8XK24NQHE83caxWt+mIymTT19DGFbNWNLfEwsrkSmN64lVWB9ag==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/serialize-javascript/-/serialize-javascript-6.0.0.tgz}
-    name: serialize-javascript
-    version: 6.0.0
-    dependencies:
-      randombytes: registry.npmmirror.com/randombytes/2.1.0
-    dev: false
-
   registry.npmmirror.com/serve-index/1.9.1:
     resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/serve-index/-/serve-index-1.9.1.tgz}
     name: serve-index
@@ -8163,22 +8360,6 @@ packages:
       faye-websocket: registry.npmmirror.com/faye-websocket/0.11.4
       uuid: registry.npmmirror.com/uuid/8.3.2
       websocket-driver: registry.npmmirror.com/websocket-driver/0.7.4
-    dev: false
-
-  registry.npmmirror.com/source-map-support/0.5.21:
-    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map-support/-/source-map-support-0.5.21.tgz}
-    name: source-map-support
-    version: 0.5.21
-    dependencies:
-      buffer-from: registry.npmmirror.com/buffer-from/1.1.2
-      source-map: 0.6.1
-    dev: false
-
-  registry.npmmirror.com/source-map/0.6.1:
-    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz}
-    name: source-map
-    version: 0.6.1
-    engines: {node: '>=0.10.0'}
     dev: false
 
   registry.npmmirror.com/spdy-transport/3.0.0:
@@ -8293,15 +8474,6 @@ packages:
       has-flag: registry.npmmirror.com/has-flag/4.0.0
     dev: true
 
-  registry.npmmirror.com/supports-color/8.1.1:
-    resolution: {integrity: sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/supports-color/-/supports-color-8.1.1.tgz}
-    name: supports-color
-    version: 8.1.1
-    engines: {node: '>=10'}
-    dependencies:
-      has-flag: 4.0.0
-    dev: false
-
   registry.npmmirror.com/supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz}
     name: supports-preserve-symlinks-flag
@@ -8314,46 +8486,6 @@ packages:
     name: tapable
     version: 2.2.1
     engines: {node: '>=6'}
-    dev: false
-
-  registry.npmmirror.com/terser-webpack-plugin/5.3.1_webpack@5.70.0:
-    resolution: {integrity: sha512-GvlZdT6wPQKbDNW/GDQzZFg/j4vKU96yl2q6mcUkzKOgW4gwf1Z8cZToUCrz31XHlPWH8MVb1r2tFtdDtTGJ7g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.1.tgz}
-    id: registry.npmmirror.com/terser-webpack-plugin/5.3.1
-    name: terser-webpack-plugin
-    version: 5.3.1
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      '@swc/core': '*'
-      esbuild: '*'
-      uglify-js: '*'
-      webpack: ^5.1.0
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      esbuild:
-        optional: true
-      uglify-js:
-        optional: true
-    dependencies:
-      jest-worker: registry.npmmirror.com/jest-worker/27.5.1
-      schema-utils: 3.1.1
-      serialize-javascript: registry.npmmirror.com/serialize-javascript/6.0.0
-      source-map: registry.npmmirror.com/source-map/0.6.1
-      terser: registry.npmmirror.com/terser/5.12.0
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
-    dev: false
-
-  registry.npmmirror.com/terser/5.12.0:
-    resolution: {integrity: sha512-R3AUhNBGWiFc77HXag+1fXpAxTAFRQTJemlJKjAgD9r8xXTpjNKqIXwHM/o7Rh+O0kUJtS3WQVdBeMKFk5sw9A==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/terser/-/terser-5.12.0.tgz}
-    name: terser
-    version: 5.12.0
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      acorn: registry.npmmirror.com/acorn/8.7.0
-      commander: registry.npmmirror.com/commander/2.20.3
-      source-map: 0.7.3
-      source-map-support: registry.npmmirror.com/source-map-support/0.5.21
     dev: false
 
   registry.npmmirror.com/through/2.3.8:
@@ -8531,7 +8663,7 @@ packages:
       import-local: registry.npmmirror.com/import-local/3.1.0
       interpret: registry.npmmirror.com/interpret/2.2.0
       rechoir: registry.npmmirror.com/rechoir/0.7.1
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
       webpack-dev-server: registry.npmmirror.com/webpack-dev-server/4.7.4_webpack-cli@4.9.2+webpack@5.70.0
       webpack-merge: 5.8.0
     dev: false
@@ -8550,7 +8682,7 @@ packages:
       mime-types: registry.npmmirror.com/mime-types/2.1.35
       range-parser: registry.npmmirror.com/range-parser/1.2.1
       schema-utils: 4.0.0
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
     dev: false
 
   registry.npmmirror.com/webpack-dev-server/4.7.4_webpack-cli@4.9.2+webpack@5.70.0:
@@ -8595,7 +8727,7 @@ packages:
       sockjs: registry.npmmirror.com/sockjs/0.3.24
       spdy: registry.npmmirror.com/spdy/4.0.2
       strip-ansi: registry.npmmirror.com/strip-ansi/7.0.1
-      webpack: registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2
+      webpack: registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091
       webpack-cli: registry.npmmirror.com/webpack-cli/4.9.2_6d3cb84eb7e855ae6fc0a3ee585c0c26
       webpack-dev-middleware: registry.npmmirror.com/webpack-dev-middleware/5.3.1_webpack@5.70.0
       ws: registry.npmmirror.com/ws/8.5.0
@@ -8613,7 +8745,7 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: false
 
-  registry.npmmirror.com/webpack/5.70.0_webpack-cli@4.9.2:
+  registry.npmmirror.com/webpack/5.70.0_775f8daf8a6319fc3e74ba9198b6f091:
     resolution: {integrity: sha512-ZMWWy8CeuTTjCxbeaQI21xSswseF2oNOwc70QSKNePvmxE7XW36i7vpBMYZFAUHPwQiEbNGCEYIOOlyRbdGmxw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/webpack/-/webpack-5.70.0.tgz}
     id: registry.npmmirror.com/webpack/5.70.0
     name: webpack
@@ -8647,7 +8779,7 @@ packages:
       neo-async: registry.npmmirror.com/neo-async/2.6.2
       schema-utils: registry.npmmirror.com/schema-utils/3.1.1
       tapable: registry.npmmirror.com/tapable/2.2.1
-      terser-webpack-plugin: registry.npmmirror.com/terser-webpack-plugin/5.3.1_webpack@5.70.0
+      terser-webpack-plugin: 5.3.1_esbuild@0.14.27+webpack@5.70.0
       watchpack: registry.npmmirror.com/watchpack/2.3.1
       webpack-cli: registry.npmmirror.com/webpack-cli/4.9.2_6d3cb84eb7e855ae6fc0a3ee585c0c26
       webpack-sources: registry.npmmirror.com/webpack-sources/3.2.3
