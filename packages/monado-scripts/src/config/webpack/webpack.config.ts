@@ -76,7 +76,7 @@ const webpackCommonConfig = (): Configuration => {
 						modules: {
 							auto: true,
 							mode: 'local',
-							localIdentName: '[local]--[hash:base64:6]',
+							localIdentName: '[local]-[hash:base64:6]',
 						},
 						sourceMap: isDevelopment,
 						importLoaders: 1,
