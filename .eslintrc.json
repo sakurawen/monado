@@ -19,6 +19,7 @@
 	},
 	"rules": {
 		"semi": ["error","always"],
-		"no-console": "off"
+		"no-console": "off",
+    "no-mixed-spaces-and-tabs":"off"
 	}
 }

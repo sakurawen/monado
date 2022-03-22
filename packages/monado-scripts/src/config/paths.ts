@@ -39,6 +39,7 @@ const resolveAppEntryName = () => {
 };
 
 export default {
+  appPath:resolveApp("."),
 	appEntry: resolveApp(`src/${resolveAppEntryName()}`),
 	appOutput: resolveApp('dist'),
 	appPublicDirectory: resolveApp('public'),

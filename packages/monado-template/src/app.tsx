@@ -1,23 +1,11 @@
 import { FC } from 'react';
-import style from './index.module.css';
+import './app.css';
+
 const App: FC = () => {
 	return (
-		<div>
-			<h1 className={style.wuhu}>are you ok?</h1>
-			<img
-				style={{
-					height: 140,
-				}}
-				src={require('./assets/塞尔达.jpg')}
-				alt=''
-			/>
-			<div
-				className={style.giao}
-				style={{
-					height: '400px',
-					width: '400px',
-				}}
-			></div>
+		<div className='app'>
+			<h2 className='text-red-800'>Monado Template</h2>
+			<p className='text-sm mt-2'>平平淡淡才是真</p>
 		</div>
 	);
 };

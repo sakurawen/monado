@@ -1,10 +1,21 @@
-import { Configuration } from 'webpack';
+import { Configuration, WebpackPluginInstance } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import paths from '../paths';
+import path from 'path';
+import fs from 'fs-extra';
+import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import Webpackbar from 'webpackbar';
 
 const webpackCommonConfig = (): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
+	const isProduction = process.env.NODE_ENV === 'production';
+	const useTailwindcss = fs.existsSync(
+		path.join(paths.appPath, 'tailwind.config.js')
+	);
 
 	const getStyleloaders = (
 		cssLoaderOptions: string | { [key: string]: any },
@@ -24,8 +35,14 @@ const webpackCommonConfig = (): Configuration => {
 				loader: require.resolve('postcss-loader'),
 				options: {
 					postcssOptions: {
-						plugins: [require.resolve('postcss-preset-env')],
+						plugins: [
+							useTailwindcss && 'tailwindcss',
+							useTailwindcss && 'postcss-normalize',
+							'postcss-flexbugs-fixes',
+							'postcss-preset-env',
+						].filter(Boolean),
 					},
+					sourceMap: isDevelopment,
 				},
 			},
 		];
@@ -49,8 +66,33 @@ const webpackCommonConfig = (): Configuration => {
 		return loaders;
 	};
 
+	const getPlugins = () => {
+		const plugins: WebpackPluginInstance[] = [
+			new MiniCssExtractPlugin({
+				filename: 'static/css/[name]-[contenthash:6].css',
+			}),
+			new HTMLWebpackPlugin({
+				inject: true,
+				template: paths.appHTMLTemplate,
+			}),
+		];
+		if (isDevelopment) {
+			plugins.push(
+				new ReactRefreshPlugin({
+					overlay: false,
+				})
+			);
+		}
+		if (isProduction) {
+			plugins.push(new Webpackbar());
+		}
+		return plugins;
+	};
+
 	return {
 		entry: paths.appEntry,
+		mode: isDevelopment ? 'development' : 'production',
+		devtool: isDevelopment ? false : 'cheap-module-source-map',
 		target: 'web',
 		output: {
 			clean: true,
@@ -129,7 +171,7 @@ const webpackCommonConfig = (): Configuration => {
 				},
 				{
 					test: /\.(sass|scss)$/i,
-          exclude: /\.module\.(sass|scss)$/,
+					exclude: /\.module\.(sass|scss)$/,
 					use: getStyleloaders(
 						{
 							modules: {
@@ -180,18 +222,28 @@ const webpackCommonConfig = (): Configuration => {
 				},
 			],
 		},
-		plugins: [
-			new MiniCssExtractPlugin({
-				filename: 'static/css/[name]-[contenthash:6].css',
-			}),
-			new HTMLWebpackPlugin({
-				template: paths.appHTMLTemplate,
-			}),
-		],
-		cache: {
-			type: 'filesystem',
-		},
+		plugins: getPlugins(),
+		cache: isDevelopment
+			? false
+			: {
+					type: 'filesystem',
+			  },
 		optimization: {
+			minimize: !isDevelopment,
+			minimizer: isDevelopment
+				? []
+				: [
+						new TerserPlugin<EsbuildOptions>({
+							minify: TerserPlugin.esbuildMinify,
+							terserOptions: {
+								minify: true,
+								minifyWhitespace: true,
+								minifyIdentifiers: true,
+								minifySyntax: true,
+							},
+						}),
+						new CssMinimizerPlugin(),
+				  ],
 			sideEffects: true,
 			splitChunks: {
 				chunks: 'all',

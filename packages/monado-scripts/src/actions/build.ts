@@ -1,16 +1,12 @@
-import {
-	webpackConfig,
-	webpackProdConfig,
-} from '../config/webpack';
+import { webpackConfig } from '../config/webpack';
 import Webpack from 'webpack';
-import { merge } from 'webpack-merge';
 
 /**
  * 启动打包
  */
 const build = () => {
 	process.env.NODE_ENV = 'production';
-	const conf = merge(webpackConfig(), webpackProdConfig);
+	const conf = webpackConfig();
 	const complier = Webpack(conf);
 	complier.run((err, stats) => {
 		stats?.toJson('minimal');
