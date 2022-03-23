@@ -1,8 +1,8 @@
 import { Command } from 'commander';
 import { getPackageVersion } from './constants';
-import build from './actions/build.js';
-import start from './actions/start.js';
-///
+import build from './actions/build';
+import start from './actions/start';
+
 const program = new Command();
 program.version(getPackageVersion());
 program

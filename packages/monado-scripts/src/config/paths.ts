@@ -38,11 +38,15 @@ const resolveAppEntryName = () => {
 	return entryName || 'index.tsx';
 };
 
+
+
 export default {
-  appPath:resolveApp("."),
+	app: resolveApp('.'),
 	appEntry: resolveApp(`src/${resolveAppEntryName()}`),
 	appOutput: resolveApp('dist'),
 	appPublicDirectory: resolveApp('public'),
+	AppTailwindcssConfig: resolveApp('tailwind.config.js'),
+	AppTSConfig: resolveApp('tsconfig.json'),
 	appSrc: resolveApp('src'),
 	appHTMLTemplate: resolveApp('public/index.html'),
 };

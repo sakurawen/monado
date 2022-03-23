@@ -8,7 +8,14 @@ const devServerConfig: ServerConfiguration = {
 	static: {
 		directory: paths.appPublicDirectory,
 	},
-	port: 5000,
+	historyApiFallback: true,
+	port: 3670,
+	client: {
+		overlay: {
+			errors: true,
+			warnings: false,
+		},
+	},
 };
 
 export default devServerConfig;

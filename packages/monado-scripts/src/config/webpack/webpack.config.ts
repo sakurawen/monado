@@ -1,21 +1,23 @@
 import { Configuration, WebpackPluginInstance } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
-import paths from '../paths';
-import path from 'path';
+import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
+import paths from '../paths';
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
-import Webpackbar from 'webpackbar';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-const webpackCommonConfig = (): Configuration => {
+import { resolveMomadoConfig } from '../../utils/file';
+
+const webpackConfig = (): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
-	const useTailwindcss = fs.existsSync(
-		path.join(paths.appPath, 'tailwind.config.js')
-	);
+	const useTailwindcss = fs.existsSync(paths.AppTailwindcssConfig);
+	const useTypescript = fs.existsSync(paths.AppTSConfig);
+	resolveMomadoConfig();
 
 	const getStyleloaders = (
 		cssLoaderOptions: string | { [key: string]: any },
@@ -68,14 +70,23 @@ const webpackCommonConfig = (): Configuration => {
 
 	const getPlugins = () => {
 		const plugins: WebpackPluginInstance[] = [
-			new MiniCssExtractPlugin({
-				filename: 'static/css/[name]-[contenthash:6].css',
-			}),
 			new HTMLWebpackPlugin({
 				inject: true,
 				template: paths.appHTMLTemplate,
 			}),
 		];
+		if (useTypescript) {
+			plugins.push(
+				new ForkTsCheckerWebpackPlugin({
+					typescript: {
+						diagnosticOptions: {
+							semantic: true,
+							syntactic: true,
+						},
+					},
+				})
+			);
+		}
 		if (isDevelopment) {
 			plugins.push(
 				new ReactRefreshPlugin({
@@ -84,7 +95,12 @@ const webpackCommonConfig = (): Configuration => {
 			);
 		}
 		if (isProduction) {
-			plugins.push(new Webpackbar());
+			plugins.push(
+				new Webpackbar(),
+				new MiniCssExtractPlugin({
+					filename: 'static/css/[name]-[contenthash:6].css',
+				})
+			);
 		}
 		return plugins;
 	};
@@ -100,7 +116,10 @@ const webpackCommonConfig = (): Configuration => {
 			path: paths.appOutput,
 		},
 		resolve: {
-			extensions: ['.ts', '.js', '.tsx', '.tsx', '.json'],
+			alias: {
+				'@': paths.appSrc,
+			},
+			extensions: ['.ts', '.js', '.jsx', '.tsx', '.tsx', '.json'],
 		},
 		module: {
 			rules: [
@@ -253,4 +272,4 @@ const webpackCommonConfig = (): Configuration => {
 	};
 };
 
-export default webpackCommonConfig;
+export default webpackConfig;
