@@ -108,7 +108,7 @@ const webpackConfig = (): Configuration => {
 	return {
 		entry: paths.appEntry,
 		mode: isDevelopment ? 'development' : 'production',
-		devtool: isDevelopment ? false : 'cheap-module-source-map',
+		devtool: isDevelopment && 'cheap-module-source-map',
 		target: 'web',
 		output: {
 			clean: true,
@@ -236,17 +236,23 @@ const webpackConfig = (): Configuration => {
 							plugins: [
 								isDevelopment && require.resolve('react-refresh/babel'),
 							].filter(Boolean),
+							cacheDirectory: true,
+							cacheCompression: false,
 						},
 					},
 				},
 			],
 		},
 		plugins: getPlugins(),
-		cache: isDevelopment
-			? false
-			: {
-					type: 'filesystem',
-			  },
+		cache: {
+			type: 'filesystem',
+			store: 'pack',
+			cacheDirectory: paths.appWebpackCache,
+			buildDependencies: {
+				defaultWebpack: ['webpack/lib'],
+				config: [__filename],
+			},
+		},
 		optimization: {
 			minimize: !isDevelopment,
 			minimizer: isDevelopment

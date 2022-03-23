@@ -42,6 +42,7 @@ const resolveAppEntryName = () => {
 
 export default {
 	app: resolveApp('.'),
+  appWebpackCache: resolveApp('node_modules/.cache'),
 	appEntry: resolveApp(`src/${resolveAppEntryName()}`),
 	appOutput: resolveApp('dist'),
 	appPublicDirectory: resolveApp('public'),

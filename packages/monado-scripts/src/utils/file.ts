@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import globby from 'globby';
 import path from 'path';
+
 /**
  * 解析配置文件
  */
