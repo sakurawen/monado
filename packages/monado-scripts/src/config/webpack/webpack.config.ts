@@ -256,6 +256,7 @@ const webpackConfig = (): Configuration => {
 				{
 					test: /\.(jsx?|tsx?)$/i,
 					include: paths.appSrc,
+					exclude: /node_modules/,
 					use: {
 						loader: require.resolve('babel-loader'),
 						options: {

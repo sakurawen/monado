@@ -10,7 +10,7 @@ const start = () => {
 	const conf = webpackConfig();
 	const complier = Webpack(conf);
 	const devServer = new WebpackDevServer(devServerConfig, complier);
-	devServer.startCallback();
+	devServer.startCallback(() => {});
 };
 
 export default start;

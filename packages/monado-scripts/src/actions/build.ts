@@ -20,6 +20,9 @@ const build = () => {
 		if (stats?.hasWarnings()) {
 			console.warn(stats.hasWarnings());
 		}
+		complier.close(() => {
+			console.log('complier close');
+		});
 	});
 };
 
