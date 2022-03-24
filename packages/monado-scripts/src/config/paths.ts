@@ -38,11 +38,10 @@ const resolveAppEntryName = () => {
 	return entryName || 'index.tsx';
 };
 
-
-
 export default {
 	app: resolveApp('.'),
-  appWebpackCache: resolveApp('node_modules/.cache'),
+	appNodeModules: resolveApp('node_modules'),
+	appWebpackCache: resolveApp('node_modules/.cache'),
 	appEntry: resolveApp(`src/${resolveAppEntryName()}`),
 	appOutput: resolveApp('dist'),
 	appPublicDirectory: resolveApp('public'),

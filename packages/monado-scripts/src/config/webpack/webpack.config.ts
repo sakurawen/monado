@@ -1,14 +1,16 @@
 import { Configuration, WebpackPluginInstance } from 'webpack';
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
-import Webpackbar from 'webpackbar';
-import fs from 'fs-extra';
-import paths from '../paths';
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import Webpackbar from 'webpackbar';
+import fs from 'fs-extra';
+import paths from '../paths';
+import resolve from 'resolve';
 
 import { resolveMomadoConfig } from '../../utils/file';
 
@@ -78,11 +80,21 @@ const webpackConfig = (): Configuration => {
 		if (useTypescript) {
 			plugins.push(
 				new ForkTsCheckerWebpackPlugin({
+					async: isDevelopment,
 					typescript: {
+						context: paths.app,
+						typescriptPath: resolve.sync('typescript', {
+							basedir: paths.appNodeModules,
+						}),
 						diagnosticOptions: {
 							semantic: true,
 							syntactic: true,
 						},
+						mode: 'write-references',
+					},
+					issue: {
+						include: [{ file: '**/src/**/*.{ts,tsx}' }],
+						exclude: [],
 					},
 				})
 			);
@@ -99,6 +111,18 @@ const webpackConfig = (): Configuration => {
 				new Webpackbar(),
 				new MiniCssExtractPlugin({
 					filename: 'static/css/[name]-[contenthash:6].css',
+					chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
+				}),
+				new CopyWebpackPlugin({
+					patterns: [
+						{
+							from: paths.appPublicDirectory,
+							to: paths.appOutput,
+							globOptions: {
+								ignore: ['**/index.html'],
+							},
+						},
+					],
 				})
 			);
 		}
@@ -110,6 +134,7 @@ const webpackConfig = (): Configuration => {
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
 		target: 'web',
+		performance: false,
 		output: {
 			clean: true,
 			filename: 'static/js/[name]-[contenthash:6].js',
@@ -249,8 +274,8 @@ const webpackConfig = (): Configuration => {
 			store: 'pack',
 			cacheDirectory: paths.appWebpackCache,
 			buildDependencies: {
-				defaultWebpack: ['webpack/lib'],
 				config: [__filename],
+				tsconfig: [paths.AppTSConfig].filter((f) => fs.existsSync(f)),
 			},
 		},
 		optimization: {
