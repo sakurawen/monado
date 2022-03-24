@@ -11,6 +11,7 @@ const App: FC = () => {
 				<Link to='/'>index</Link>
 				<Link to='/about'>about</Link>
 			</div>
+      <img src={require("@/assets/塞尔达.jpg")} alt="" />
 			<Routes>
 				<Route path='/' element={<div>index</div>} />
 				<Route path='/about' element={<div>about</div>} />

@@ -7,11 +7,11 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
 import paths from '../paths';
 import resolve from 'resolve';
-
 import { resolveMomadoConfig } from '../../utils/file';
 
 const webpackConfig = (): Configuration => {
@@ -108,11 +108,15 @@ const webpackConfig = (): Configuration => {
 		}
 		if (isProduction) {
 			plugins.push(
-				new Webpackbar(),
+				new Webpackbar({
+					name: 'monado',
+					color: '#a3e635',
+				}),
 				new MiniCssExtractPlugin({
 					filename: 'static/css/[name]-[contenthash:6].css',
 					chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
 				}),
+				new BundleAnalyzerPlugin(),
 				new CopyWebpackPlugin({
 					patterns: [
 						{
@@ -131,20 +135,27 @@ const webpackConfig = (): Configuration => {
 
 	return {
 		entry: paths.appEntry,
-		mode: isDevelopment ? 'development' : 'production',
-		devtool: isDevelopment && 'cheap-module-source-map',
-		target: 'web',
-		performance: false,
 		output: {
 			clean: true,
 			filename: 'static/js/[name]-[contenthash:6].js',
 			path: paths.appOutput,
 		},
+		mode: isDevelopment ? 'development' : 'production',
+		devtool: isDevelopment && 'cheap-module-source-map',
+		target: 'web',
+		performance: false,
 		resolve: {
 			alias: {
 				'@': paths.appSrc,
 			},
-			extensions: ['.ts', '.js', '.jsx', '.tsx', '.tsx', '.json'],
+			extensions: [
+				'.js',
+				'.jsx',
+				useTypescript && '.ts',
+				useTypescript && '.tsx',
+				useTypescript && '.tsx',
+				'.json',
+			].filter(Boolean) as string[],
 		},
 		module: {
 			rules: [
@@ -262,6 +273,7 @@ const webpackConfig = (): Configuration => {
 								isDevelopment && require.resolve('react-refresh/babel'),
 							].filter(Boolean),
 							cacheDirectory: true,
+							compact: !isDevelopment,
 							cacheCompression: false,
 						},
 					},
@@ -297,6 +309,10 @@ const webpackConfig = (): Configuration => {
 			sideEffects: true,
 			splitChunks: {
 				chunks: 'all',
+				minSize: 1000 * 30,
+				minChunks: 1,
+				maxAsyncRequests: 6,
+				maxInitialRequests: 3,
 			},
 			usedExports: true,
 		},
