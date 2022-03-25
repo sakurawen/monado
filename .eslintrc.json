@@ -9,6 +9,7 @@
 		"eslint:recommended",
 		"plugin:@typescript-eslint/eslint-recommended"
 	],
+
 	"globals": {
 		"Atomics": "readonly",
 		"SharedArrayBuffer": "readonly"
@@ -18,8 +19,9 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"semi": ["error","always"],
+		"semi": ["error", "always"],
+		"no-unused-vars": "warn",
 		"no-console": "off",
-    "no-mixed-spaces-and-tabs":"off"
+		"no-mixed-spaces-and-tabs": "off"
 	}
 }
