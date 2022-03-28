@@ -1,5 +1,5 @@
-import run from './utils/index.js';
 import { Command } from 'commander';
+import create from './scripts/create.js';
 import { getVersion } from './utils/package.js';
 
 const program = new Command();
@@ -8,6 +8,7 @@ type Action = {
 	alias: string;
 	desc: string;
 	examples: string[];
+	script: any;
 };
 
 const actionsMap: Record<string, Action> = {
@@ -15,11 +16,7 @@ const actionsMap: Record<string, Action> = {
 		alias: 'crt',
 		desc: 'create react template',
 		examples: ['monado create|crt <projectName>'],
-	},
-	config: {
-		alias: 'cfg',
-		desc: 'set configuation',
-		examples: ['monado config|cfg <k> <v>', 'monado config|cfg get <k>'],
+		script: create,
 	},
 };
 
@@ -29,7 +26,7 @@ Object.keys(actionsMap).forEach((action) => {
 		.alias(actionsMap[action].alias)
 		.description(actionsMap[action].desc)
 		.action((argv: string) => {
-			run(argv);
+			actionsMap[action].script(argv);
 		});
 });
 

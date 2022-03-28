@@ -39,9 +39,9 @@ const webpackConfig = (): Configuration => {
 					postcssOptions: {
 						plugins: [
 							useTailwindcss && 'tailwindcss',
-							useTailwindcss && 'postcss-normalize',
 							'postcss-flexbugs-fixes',
 							'postcss-preset-env',
+							useTailwindcss && 'postcss-normalize',
 						].filter(Boolean),
 					},
 					sourceMap: isDevelopment,
@@ -142,6 +142,9 @@ const webpackConfig = (): Configuration => {
 		devtool: isDevelopment && 'cheap-module-source-map',
 		target: 'web',
 		performance: false,
+		resolveLoader: {
+			modules: ['node_modules'],
+		},
 		resolve: {
 			alias: {
 				'@': paths.appSrc,

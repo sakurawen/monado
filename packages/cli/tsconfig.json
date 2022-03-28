@@ -5,7 +5,7 @@
 		"allowJs": false,
 		"baseUrl": "./src",
 		/* Modules */
-		"module": "es2015" /* Specify what module code is generated. */,
+		"module": "esnext" /* Specify what module code is generated. */,
 		// "rootDir": "./",                                  /* Specify the root folder within your source files. */
 		"moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
 		/* Emit */
