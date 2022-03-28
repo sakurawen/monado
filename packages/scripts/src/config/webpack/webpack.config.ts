@@ -12,14 +12,12 @@ import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
 import paths from '../paths';
 import resolve from 'resolve';
-import { resolveMomadoConfig } from '../../utils/file';
 
 const webpackConfig = (): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
 	const useTailwindcss = fs.existsSync(paths.AppTailwindcssConfig);
 	const useTypescript = fs.existsSync(paths.AppTSConfig);
-	resolveMomadoConfig();
 
 	const getStyleloaders = (
 		cssLoaderOptions: string | { [key: string]: any },
@@ -69,6 +67,7 @@ const webpackConfig = (): Configuration => {
 		}
 		return loaders;
 	};
+
 	const getPlugins = () => {
 		const plugins: WebpackPluginInstance[] = [
 			new HTMLWebpackPlugin({
@@ -151,7 +150,6 @@ const webpackConfig = (): Configuration => {
 				'.js',
 				'.jsx',
 				useTypescript && '.ts',
-				useTypescript && '.tsx',
 				useTypescript && '.tsx',
 				'.json',
 			].filter(Boolean) as string[],
@@ -253,7 +251,7 @@ const webpackConfig = (): Configuration => {
 					),
 				},
 				{
-					test: /\.(jsx?|tsx?)$/i,
+					test: /\.(js|jsx|ts|tsx)$/i,
 					include: paths.appSrc,
 					exclude: /node_modules/,
 					use: {
