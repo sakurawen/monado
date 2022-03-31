@@ -7,7 +7,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
 import paths from '../paths';
@@ -114,7 +114,7 @@ const webpackConfig = (): Configuration => {
 					filename: 'static/css/[name]-[contenthash:6].css',
 					chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
 				}),
-				new BundleAnalyzerPlugin(),
+				// new BundleAnalyzerPlugin(),
 				new CopyWebpackPlugin({
 					patterns: [
 						{
