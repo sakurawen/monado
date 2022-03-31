@@ -4,11 +4,18 @@ const devServerConfig: ServerConfiguration = {
 	hot: true,
 	open: true,
 	host: 'localhost',
+	headers: {
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Methods': '*',
+		'Access-Control-Allow-Headers': '*',
+	},
 	compress: true,
 	static: {
 		directory: paths.appPublicDirectory,
 	},
-	historyApiFallback: true,
+	historyApiFallback: {
+		disableDotRule: true,
+	},
 	port: 3670,
 	client: {
 		overlay: {
@@ -16,8 +23,7 @@ const devServerConfig: ServerConfiguration = {
 			warnings: false,
 		},
 	},
-  proxy:{
-  }
+	proxy: {},
 };
 
 export default devServerConfig;

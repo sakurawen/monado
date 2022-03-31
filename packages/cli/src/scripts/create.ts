@@ -22,33 +22,31 @@ async function create(projectName: string) {
 	}
 
 	const spinner = Ora();
-	console.log(`create project name:${projectName}`);
-	spinner.start('项目创建中');
 	const hasProjectDir = fs.existsSync(path.join(process.cwd(), projectName));
 	if (hasProjectDir) {
 		spinner.fail(
 			chalk.bold.red(
-				`当前目录下,'${projectName}'已存在,请修改项目名,或者删除该目录下的'${projectName}'`
+				`当前目录下,'${projectName}'已存在,请修改项目名,或删除该目录下的'${projectName}'`
 			)
 		);
 		return;
 	}
-
+	console.log(`项目开始创建,项目名:${chalk.green(projectName)}`);
+	spinner.start('模板下载中...');
 	const projectDir = path.resolve(process.cwd(), projectName);
 
 	try {
 		await downloadTemplate(projectDir);
-		spinner.info('模板创建成功');
+		spinner.succeed('模板创建成功');
 	} catch {
 		spinner.fail('下载模板失败，请检查网络');
 	}
-
-	const gitInstall = git.isInstall();
-	if (gitInstall) {
+	const gitInstalled = git.checkInstalled();
+	if (gitInstalled) {
 		process.chdir(projectDir);
 		git.init();
 		git.firstCommit();
-		console.log('初始化git仓库 ');
+		console.log('初始化git仓库');
 	}
 	process.chdir(path.resolve(projectDir, '..'));
 	console.log(chalk.green('项目创建成功'));

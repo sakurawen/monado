@@ -38,10 +38,10 @@ const webpackConfig = (): Configuration => {
 				options: {
 					postcssOptions: {
 						plugins: [
-							useTailwindcss && 'tailwindcss',
-							'postcss-flexbugs-fixes',
-							'postcss-preset-env',
-							useTailwindcss && 'postcss-normalize',
+							useTailwindcss && require.resolve('tailwindcss'),
+							require.resolve('postcss-flexbugs-fixes'),
+							require.resolve('postcss-preset-env'),
+							useTailwindcss && require.resolve('postcss-normalize'),
 						].filter(Boolean),
 					},
 					sourceMap: isDevelopment,
@@ -258,7 +258,7 @@ const webpackConfig = (): Configuration => {
 					include: paths.appSrc,
 					exclude: /node_modules/,
 					use: {
-						loader: require.resolve('babel-loader'),
+						loader: 'babel-loader',
 						options: {
 							presets: [
 								require.resolve('@babel/preset-env'),

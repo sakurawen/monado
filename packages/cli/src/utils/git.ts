@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 
-const isInstall = () => {
+const checkInstalled = () => {
 	let install = true;
 	try {
 		execSync('git --version', { stdio: 'ignore' });
@@ -25,15 +25,15 @@ const firstCommit = () => {
 	try {
 		execSync('git add -A', { stdio: 'ignore' });
 		execSync("git commit -m '项目初始化'", { stdio: 'ignore' });
-	} catch(e) {
-    console.error(e);
+	} catch (e) {
+		console.error(e);
 		isSuccess = false;
 	}
 	return isSuccess;
 };
 
 export default {
-	isInstall,
+	checkInstalled,
 	init,
 	firstCommit,
 };
