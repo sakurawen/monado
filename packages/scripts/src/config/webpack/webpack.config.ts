@@ -1,4 +1,4 @@
-import { Configuration, WebpackPluginInstance } from 'webpack';
+import { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
@@ -12,12 +12,17 @@ import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
 import paths from '../paths';
 import resolve from 'resolve';
+import { MonadoConfiguration } from 'index';
 
-const webpackConfig = (): Configuration => {
+const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
 	const useTailwindcss = fs.existsSync(paths.AppTailwindcssConfig);
 	const useTypescript = fs.existsSync(paths.AppTSConfig);
+
+	const enableCssModule = monadoConf?.featrue?.cssModule === true;
+	const enableScss = monadoConf?.featrue?.scss === true;
+	const enableMdx = monadoConf?.featrue?.mdx === true;
 
 	const getStyleloaders = (
 		cssLoaderOptions: string | { [key: string]: any },
@@ -211,7 +216,7 @@ const webpackConfig = (): Configuration => {
 						esModule: true,
 					}),
 				},
-				{
+				enableCssModule && {
 					test: /\.module\.css$/,
 					use: getStyleloaders({
 						modules: {
@@ -224,7 +229,7 @@ const webpackConfig = (): Configuration => {
 						esModule: true,
 					}),
 				},
-				{
+				enableScss && {
 					test: /\.(sass|scss)$/i,
 					exclude: /\.module\.(sass|scss)$/,
 					use: getStyleloaders(
@@ -238,7 +243,7 @@ const webpackConfig = (): Configuration => {
 						'sass-loader'
 					),
 				},
-				{
+				enableScss && {
 					test: /\.module\.(sass|scss)$/i,
 					use: getStyleloaders(
 						{
@@ -279,7 +284,35 @@ const webpackConfig = (): Configuration => {
 						},
 					},
 				},
-			],
+				enableMdx && {
+					test: /\.mdx?$/,
+					use: [
+						{
+							loader: require.resolve('babel-loader'),
+							options: {
+								presets: [
+									require.resolve('@babel/preset-env'),
+									[
+										require.resolve('@babel/preset-react'),
+										{
+											runtime: 'automatic',
+										},
+									],
+									require.resolve('@babel/preset-typescript'),
+								],
+								cacheDirectory: true,
+								compact: !isDevelopment,
+								cacheCompression: false,
+							},
+						},
+						{
+							loader: require.resolve('@mdx-js/loader'),
+							/** @type {import('@mdx-js/loader').Options} */
+							options: {},
+						},
+					],
+				},
+			].filter(Boolean) as RuleSetRule[],
 		},
 		plugins: getPlugins(),
 		cache: {

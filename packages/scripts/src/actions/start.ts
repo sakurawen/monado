@@ -8,11 +8,12 @@ import { file } from '../utils';
  */
 const start = () => {
 	process.env.NODE_ENV = 'development';
-	const config = file.resolveMomadoConfig();
-	if (config) {
-		devServerConfig.port = config.port;
+	const monadoConfig = file.resolveMomadoConfig();
+	console.log(monadoConfig);
+	if (monadoConfig) {
+		devServerConfig.port = monadoConfig.port;
 	}
-	const conf = webpackConfig();
+	const conf = webpackConfig(monadoConfig);
 	const complier = Webpack(conf);
 	const devServer = new WebpackDevServer(devServerConfig, complier);
 	devServer.startCallback(() => {});

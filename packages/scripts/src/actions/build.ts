@@ -1,12 +1,14 @@
 import { webpackConfig } from '../config/webpack';
 import Webpack from 'webpack';
+import { file } from '../utils';
 
 /**
  * 启动打包
  */
 const build = () => {
 	process.env.NODE_ENV = 'production';
-	const conf = webpackConfig();
+	const monadoConfig = file.resolveMomadoConfig();
+	const conf = webpackConfig(monadoConfig);
 	const complier = Webpack(conf);
 	complier.run((err, stats) => {
 		stats?.toJson('minimal');

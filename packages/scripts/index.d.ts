@@ -61,6 +61,16 @@ declare module '*.module.sass' {
 	export default classes;
 }
 
+declare module '*.mdx' {
+	let MDXComponent: (props: any) => JSX.Element;
+	export default MDXComponent;
+}
+
 export type MonadoConfiguration = {
 	port?: number;
+	featrue?: {
+		mdx?: boolean;
+		cssModule: Boolean;
+		scss?: boolean;
+	};
 };
