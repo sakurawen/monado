@@ -7,7 +7,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
 import paths from '../paths';
@@ -23,6 +23,8 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const enableCssModule = monadoConf?.featrue?.cssModule === true;
 	const enableScss = monadoConf?.featrue?.scss === true;
 	const enableMdx = monadoConf?.featrue?.mdx === true;
+
+	const enbaleBundleAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
 
 	const getStyleloaders = (
 		cssLoaderOptions: string | { [key: string]: any },
@@ -111,26 +113,28 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		}
 		if (isProduction) {
 			plugins.push(
-				new Webpackbar({
-					name: 'monado',
-					color: '#a3e635',
-				}),
-				new MiniCssExtractPlugin({
-					filename: 'static/css/[name]-[contenthash:6].css',
-					chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
-				}),
-				// new BundleAnalyzerPlugin(),
-				new CopyWebpackPlugin({
-					patterns: [
-						{
-							from: paths.appPublicDirectory,
-							to: paths.appOutput,
-							globOptions: {
-								ignore: ['**/index.html'],
+				...([
+					new Webpackbar({
+						name: 'monado',
+						color: '#a3e635',
+					}),
+					new MiniCssExtractPlugin({
+						filename: 'static/css/[name]-[contenthash:6].css',
+						chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
+					}),
+					enbaleBundleAnalyzer && new BundleAnalyzerPlugin(),
+					new CopyWebpackPlugin({
+						patterns: [
+							{
+								from: paths.appPublicDirectory,
+								to: paths.appOutput,
+								globOptions: {
+									ignore: ['**/index.html'],
+								},
 							},
-						},
-					],
-				})
+						],
+					}),
+				].filter(Boolean) as WebpackPluginInstance[])
 			);
 		}
 		return plugins;
@@ -273,8 +277,8 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 										runtime: 'automatic',
 									},
 								],
-								require.resolve('@babel/preset-typescript'),
-							],
+								useTypescript && require.resolve('@babel/preset-typescript'),
+							].filter(Boolean),
 							plugins: [
 								isDevelopment && require.resolve('react-refresh/babel'),
 							].filter(Boolean),
@@ -298,8 +302,8 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 											runtime: 'automatic',
 										},
 									],
-									require.resolve('@babel/preset-typescript'),
-								],
+									useTypescript && require.resolve('@babel/preset-typescript'),
+								].filter(Boolean),
 								cacheDirectory: true,
 								compact: !isDevelopment,
 								cacheCompression: false,

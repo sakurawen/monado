@@ -11,7 +11,7 @@ const start = () => {
 	const monadoConfig = file.resolveMomadoConfig();
 	console.log(monadoConfig);
 	if (monadoConfig) {
-		devServerConfig.port = monadoConfig.port;
+		devServerConfig.port = monadoConfig.server?.port || devServerConfig.port;
 	}
 	const conf = webpackConfig(monadoConfig);
 	const complier = Webpack(conf);

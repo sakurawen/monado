@@ -67,10 +67,15 @@ declare module '*.mdx' {
 }
 
 export type MonadoConfiguration = {
-	port?: number;
+	server?: {
+		port?: number;
+	};
 	featrue?: {
 		mdx?: boolean;
 		cssModule: Boolean;
 		scss?: boolean;
+	};
+	plugins?: {
+		bundleAnalyzer?: boolean;
 	};
 };
