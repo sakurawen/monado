@@ -3,7 +3,6 @@ import paths from '../paths';
 const devServerConfig: ServerConfiguration = {
 	hot: true,
 	open: true,
-	host: 'localhost',
 	headers: {
 		'Access-Control-Allow-Origin': '*',
 		'Access-Control-Allow-Methods': '*',
@@ -16,6 +15,7 @@ const devServerConfig: ServerConfiguration = {
 	historyApiFallback: {
 		disableDotRule: true,
 	},
+	allowedHosts: 'all',
 	port: 3670,
 	client: {
 		overlay: {
