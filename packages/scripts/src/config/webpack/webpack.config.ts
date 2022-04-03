@@ -147,14 +147,13 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			filename: 'static/js/[name]-[contenthash:6].js',
 			path: paths.appOutput,
 		},
-		mode: isDevelopment ? 'development' : 'production',
-		devtool: isDevelopment && 'cheap-module-source-map',
 		target: 'web',
+		// mode: isDevelopment ? 'development' : 'production',
+		mode: 'production',
+		devtool: isDevelopment && 'cheap-module-source-map',
 		performance: false,
-		resolveLoader: {
-			modules: ['node_modules'],
-		},
 		resolve: {
+			modules: ['node_modules', paths.appNodeModules],
 			alias: {
 				'@': paths.appSrc,
 			},
@@ -270,7 +269,13 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						loader: require.resolve('babel-loader'),
 						options: {
 							presets: [
-								require.resolve('@babel/preset-env'),
+								[
+									require.resolve('@babel/preset-env'),
+									{
+										corejs: 3,
+										useBuiltIns: 'usage',
+									},
+								],
 								[
 									require.resolve('@babel/preset-react'),
 									{
@@ -319,20 +324,22 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			].filter(Boolean) as RuleSetRule[],
 		},
 		plugins: getPlugins(),
-		cache: {
-			type: 'filesystem',
-			store: 'pack',
-			cacheDirectory: paths.appWebpackCache,
-			buildDependencies: {
-				config: [__filename],
-				tsconfig: [paths.AppTSConfig].filter((f) => fs.existsSync(f)),
-			},
-		},
+		cache: isDevelopment
+			? {
+					type: 'filesystem',
+					store: 'pack',
+					cacheDirectory: paths.appWebpackCache,
+					buildDependencies: {
+						defaultWebpack: ['webpack/lib/'],
+						config: [__filename],
+						tsconfig: [paths.AppTSConfig].filter((f) => fs.existsSync(f)),
+					},
+			  }
+			: false,
 		optimization: {
-			minimize: !isDevelopment,
-			minimizer: isDevelopment
-				? []
-				: [
+			minimize: isProduction,
+			minimizer: isProduction
+				? [
 						new TerserPlugin<EsbuildOptions>({
 							minify: TerserPlugin.esbuildMinify,
 							terserOptions: {
@@ -343,7 +350,8 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 							},
 						}),
 						new CssMinimizerPlugin(),
-				  ],
+				  ]
+				: [],
 			sideEffects: true,
 			splitChunks: {
 				chunks: 'all',

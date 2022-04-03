@@ -18,6 +18,7 @@ const devServerConfig: ServerConfiguration = {
 	allowedHosts: 'all',
 	port: 3670,
 	client: {
+		logging: 'error',
 		overlay: {
 			errors: true,
 			warnings: false,

@@ -15,12 +15,13 @@ const build = () => {
 		if (err) {
 			console.error('build error:', err);
 		}
+		if (stats?.hasWarnings()) {
+			console.warn(stats.hasWarnings());
+		}
 		if (stats?.hasErrors()) {
 			console.error(new Error('Build failed with errors.'));
 			console.error('stats has error:', stats.toString());
-		}
-		if (stats?.hasWarnings()) {
-			console.warn(stats.hasWarnings());
+			return;
 		}
 		complier.close(() => {
 			console.log('complier close');
