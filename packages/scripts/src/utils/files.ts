@@ -4,9 +4,9 @@ import path from 'path';
 import { MonadoConfiguration } from '../../index';
 
 /**
- * 解析配置文件
+ * 加载配置文件
  */
-export const resolveMomadoConfig = (): MonadoConfiguration | undefined => {
+export const loadMomadoConfig = (): MonadoConfiguration | undefined => {
 	const files = globby.sync(['**/*'], {
 		cwd: path.resolve(process.cwd(), '.'),
 	});

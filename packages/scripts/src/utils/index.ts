@@ -1,2 +1,2 @@
 export * as pkg from './pkg';
-export * as file from './file';
+export * as files from './files';

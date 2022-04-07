@@ -1,5 +1,6 @@
 import { Configuration as ServerConfiguration } from 'webpack-dev-server';
-import paths from '../paths';
+import paths from './paths';
+
 const devServerConfig: ServerConfiguration = {
 	hot: true,
 	open: true,
