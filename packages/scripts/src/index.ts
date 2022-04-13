@@ -4,7 +4,8 @@ import build from './actions/build';
 import start from './actions/start';
 
 const program = new Command();
-program.version(pkg.getVersion());
+
+program.version(pkg.getVersion()).alias('-v');
 program
 	.command('build')
 	.description('构建应用')

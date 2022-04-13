@@ -10,7 +10,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
-import paths from '../paths';
+import paths from '../utils/paths';
 import resolve from 'resolve';
 import { MonadoConfiguration } from 'index';
 
@@ -91,6 +91,11 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						typescriptPath: resolve.sync('typescript', {
 							basedir: paths.appNodeModules,
 						}),
+						configOverwrite: {
+							compilerOptions: {
+								noEmit: true,
+							},
+						},
 						diagnosticOptions: {
 							semantic: true,
 							syntactic: true,

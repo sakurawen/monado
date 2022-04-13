@@ -1,5 +1,5 @@
-import { webpackConfig } from '../config/webpack';
 import Webpack from 'webpack';
+import { webpackConfig } from '../config';
 import { files } from '../utils';
 
 /**
@@ -9,8 +9,8 @@ const build = () => {
 	process.env.NODE_ENV = 'production';
 	const monadoConfig = files.loadMomadoConfig();
 	const conf = webpackConfig(monadoConfig);
-	const complier = Webpack(conf);
-	complier.run((err, stats) => {
+	const compiler = Webpack(conf);
+	compiler.run((err, stats) => {
 		stats?.toJson('minimal');
 		if (err) {
 			console.error('build error:', err);
@@ -23,7 +23,7 @@ const build = () => {
 			console.error('stats has error:', stats.toString());
 			return;
 		}
-		complier.close(() => {
+		compiler.close(() => {
 			console.log('complier close');
 		});
 	});
