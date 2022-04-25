@@ -11,7 +11,6 @@ import chalk from 'chalk';
 const start = () => {
 	process.env.NODE_ENV = 'development';
 	const monadoConfig = files.loadMomadoConfig();
-	console.log(monadoConfig);
 	if (monadoConfig) {
 		devServerConfig.port = monadoConfig.server?.port || devServerConfig.port;
 	}
@@ -20,18 +19,17 @@ const start = () => {
 
 	compiler.hooks.invalid.tap('invalid', () => {
 		cleanConsole();
-		console.log(chalk.blue.bold('构建中...'));
+		console.log(chalk.blue.bold('compiling...'));
 	});
 
 	compiler.hooks.done.tap('done', () => {
 		cleanConsole();
-		console.log(chalk.green.bold('构建成功'));
+		console.log(chalk.green.bold('compiler success'));
 	});
 
 	const devServer = new WebpackDevServer(devServerConfig, compiler);
-	devServer.startCallback(() => {
-		cleanConsole();
-	});
+
+	devServer.startCallback(() => {});
 };
 
 export default start;
