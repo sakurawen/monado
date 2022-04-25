@@ -155,6 +155,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
+    stats:"errors-only",
 		performance: false,
 		resolve: {
 			modules: ['node_modules', paths.appNodeModules],
