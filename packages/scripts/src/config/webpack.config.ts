@@ -1,5 +1,6 @@
 import { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
-import type { TransformOptions as EsbuildOptions } from 'esbuild';
+// import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
@@ -121,7 +122,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 				...([
 					new Webpackbar({
 						name: 'monado',
-						color: '#a3e635',
+						color: '#2dd4bf',
 					}),
 					new MiniCssExtractPlugin({
 						filename: 'static/css/[name]-[contenthash:6].css',
@@ -155,7 +156,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
-    stats:"errors-only",
+		stats: 'errors-only',
 		performance: false,
 		resolve: {
 			modules: ['node_modules', paths.appNodeModules],
@@ -269,56 +270,33 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 				{
 					test: /\.(js|jsx|ts|tsx)$/i,
 					include: paths.appSrc,
-					exclude: /node_modules/,
+					exclude: /(node_modules)/,
 					use: {
-						loader: require.resolve('babel-loader'),
+						loader: require.resolve('swc-loader'),
 						options: {
-							presets: [
-								[
-									require.resolve('@babel/preset-env'),
-									{
-										corejs: 3,
-										useBuiltIns: 'usage',
-									},
-								],
-								[
-									require.resolve('@babel/preset-react'),
-									{
+							env: {
+								coreJs: 3,
+								mode: 'usage',
+							},
+							jsc: {
+								target: 'es5',
+								transform: {
+									react: {
+										refresh: true,
 										runtime: 'automatic',
 									},
-								],
-								useTypescript && require.resolve('@babel/preset-typescript'),
-							].filter(Boolean),
-							plugins: [
-								isDevelopment && require.resolve('react-refresh/babel'),
-							].filter(Boolean),
-							cacheDirectory: true,
-							compact: !isDevelopment,
-							cacheCompression: false,
+								},
+								parser: {
+									tsx: true,
+									syntax: 'typescript',
+								},
+							},
 						},
 					},
 				},
 				enableMdx && {
 					test: /\.mdx?$/,
 					use: [
-						{
-							loader: require.resolve('babel-loader'),
-							options: {
-								presets: [
-									require.resolve('@babel/preset-env'),
-									[
-										require.resolve('@babel/preset-react'),
-										{
-											runtime: 'automatic',
-										},
-									],
-									useTypescript && require.resolve('@babel/preset-typescript'),
-								].filter(Boolean),
-								cacheDirectory: true,
-								compact: !isDevelopment,
-								cacheCompression: false,
-							},
-						},
 						{
 							loader: require.resolve('@mdx-js/loader'),
 							/** @type {import('@mdx-js/loader').Options} */
@@ -345,13 +323,11 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			minimize: isProduction,
 			minimizer: isProduction
 				? [
-						new TerserPlugin<EsbuildOptions>({
-							minify: TerserPlugin.esbuildMinify,
+						new TerserPlugin<SwcOptions>({
+							minify: TerserPlugin.swcMinify,
 							terserOptions: {
-								minify: true,
-								minifyWhitespace: true,
-								minifyIdentifiers: true,
-								minifySyntax: true,
+								mangle: true,
+								compress: true,
 							},
 						}),
 						new CssMinimizerPlugin(),
