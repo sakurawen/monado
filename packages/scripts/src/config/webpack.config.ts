@@ -1,6 +1,6 @@
 import { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import type { JsMinifyOptions as SwcOptions } from '@swc/core';
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
@@ -274,31 +274,30 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 					include: paths.appSrc,
 					exclude: /(node_modules)/,
 					use: {
-						loader: require.resolve('swc-loader'),
+						loader: require.resolve('babel-loader'),
 						options: {
-							env: {
-								coreJs: 3,
-								mode: 'usage',
-							},
-							jsc: {
-								target: 'es5',
-                externalHelpers:true,
-								transform: {
-									react: {
-										refresh: true,
+							presets: [
+								[
+									require.resolve('@babel/preset-env'),
+									{
+										corejs: 3,
+										useBuiltIns: 'usage',
+									},
+								],
+								[
+									require.resolve('@babel/preset-react'),
+									{
 										runtime: 'automatic',
 									},
-								},
-								parser: useTypescript? {
-									tsx: true,
-									syntax: 'typescript',
-                  dynamicImport: true,
-								}:{
-                  tsx: true,
-									syntax: 'ecmascript',
-                  dynamicImport: true,
-                },
-							},
+								],
+								useTypescript && require.resolve('@babel/preset-typescript'),
+							].filter(Boolean),
+							plugins: [
+								isDevelopment && require.resolve('react-refresh/babel'),
+							].filter(Boolean),
+							cacheDirectory: true,
+							compact: !isDevelopment,
+							cacheCompression: false,
 						},
 					},
 				},
@@ -321,7 +320,6 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 					store: 'pack',
 					cacheDirectory: paths.appWebpackCache,
 					buildDependencies: {
-						defaultWebpack: ['webpack/lib/'],
 						config: [__filename],
 						tsconfig: [paths.AppTSConfig].filter((f) => fs.existsSync(f)),
 					},
@@ -331,13 +329,15 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			minimize: isProduction,
 			minimizer: isProduction
 				? [
-						new TerserPlugin<SwcOptions>({
-							minify: TerserPlugin.swcMinify,
-							terserOptions: {
-								mangle: true,
-								compress: true,
-							},
-						}),
+          new TerserPlugin<EsbuildOptions>({
+            minify: TerserPlugin.esbuildMinify,
+            terserOptions: {
+              minify: true,
+              minifyWhitespace: true,
+              minifyIdentifiers: true,
+              minifySyntax: true,
+            },
+          }),
 						new CssMinimizerPlugin(),
 				  ]
 				: [],
