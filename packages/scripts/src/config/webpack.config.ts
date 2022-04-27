@@ -1,5 +1,5 @@
 import { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
-// import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
@@ -160,9 +160,11 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		performance: false,
 		resolve: {
 			modules: ['node_modules', paths.appNodeModules],
-			alias: {
-				'@': paths.appSrc,
-			},
+			plugins: [
+				new TsconfigPathsPlugin({
+					configFile: paths.AppTSConfig,
+				}),
+			],
 			extensions: [
 				'.js',
 				'.jsx',
@@ -280,16 +282,22 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 							},
 							jsc: {
 								target: 'es5',
+                externalHelpers:true,
 								transform: {
 									react: {
 										refresh: true,
 										runtime: 'automatic',
 									},
 								},
-								parser: {
+								parser: useTypescript? {
 									tsx: true,
 									syntax: 'typescript',
-								},
+                  dynamicImport: true,
+								}:{
+                  tsx: true,
+									syntax: 'ecmascript',
+                  dynamicImport: true,
+                },
 							},
 						},
 					},
