@@ -35,18 +35,17 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 ### 配置文件
 在项目文件夹下创建monado.config.json作为配置文件，目前支持的配置如下
 ~~~json
-// monado.config.json
 {
   "server": {
-    "port": 4000 // 开发服务器端口
+    "port": 4000 
   },
   "featrue": {
-    "mdx": true, // 是否启用mdx
-    "cssModule": true, //是否启用css module
-    "scss": true // 是否启用scss
+    "mdx": true, 
+    "cssModule": true, 
+    "scss": true 
   },
   "plugins": {
-    "bundleAnalyzer": false // 是否开启打包分析
+    "bundleAnalyzer": false 
   }
 }
 ~~~

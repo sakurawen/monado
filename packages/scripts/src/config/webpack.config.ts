@@ -159,6 +159,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		stats: 'errors-only',
 		performance: false,
 		resolve: {
+      symlinks:true,
 			modules: ['node_modules', paths.appNodeModules],
 			plugins: [
 				new TsconfigPathsPlugin({
