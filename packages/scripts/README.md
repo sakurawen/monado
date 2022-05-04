@@ -1,5 +1,4 @@
 # @monado/scripts
-
 基于 webpack 的用于构建 react 应用的打包工具，支持 typescript、mdx、tailwindcss、postcss 等常用库
 
 ## usage
@@ -29,18 +28,29 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 ### 配置文件
 在项目文件夹下创建monado.config.json作为配置文件，目前支持的配置如下
 ~~~json
-// monado.config.json
 {
   "server": {
-    "port": 4000 // 开发服务器端口
+    "port": 4000 
   },
   "featrue": {
-    "mdx": true, // 是否启用mdx
-    "cssModule": true, //是否启用css module
-    "scss": true // 是否启用scss
+    "mdx": true, 
+    "cssModule": true, 
+    "scss": true 
   },
   "plugins": {
-    "bundleAnalyzer": false // 是否开启打包分析
+    "bundleAnalyzer": false 
+  }
+}
+~~~
+
+### 别名配置
+直接在`tsconfig.json`文件中配置，语法与配置typescript文件配置别名相同，重启服务即可生效
+~~~json
+{
+  "compilerOptions": {
+    "paths":{
+      	"@/*": ["src/*"]
+    }
   }
 }
 ~~~

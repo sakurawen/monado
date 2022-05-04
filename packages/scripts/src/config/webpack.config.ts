@@ -79,7 +79,6 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const getPlugins = () => {
 		const plugins: WebpackPluginInstance[] = [
 			new HTMLWebpackPlugin({
-				inject: true,
 				template: paths.appHTMLTemplate,
 			}),
 		];
@@ -152,6 +151,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			clean: true,
 			filename: 'static/js/[name]-[contenthash:6].js',
 			path: paths.appOutput,
+			publicPath: '/',
 		},
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
@@ -159,7 +159,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		stats: 'errors-only',
 		performance: false,
 		resolve: {
-      symlinks:true,
+			symlinks: true,
 			modules: ['node_modules', paths.appNodeModules],
 			plugins: [
 				new TsconfigPathsPlugin({
@@ -330,15 +330,15 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			minimize: isProduction,
 			minimizer: isProduction
 				? [
-          new TerserPlugin<EsbuildOptions>({
-            minify: TerserPlugin.esbuildMinify,
-            terserOptions: {
-              minify: true,
-              minifyWhitespace: true,
-              minifyIdentifiers: true,
-              minifySyntax: true,
-            },
-          }),
+						new TerserPlugin<EsbuildOptions>({
+							minify: TerserPlugin.esbuildMinify,
+							terserOptions: {
+								minify: true,
+								minifyWhitespace: true,
+								minifyIdentifiers: true,
+								minifySyntax: true,
+							},
+						}),
 						new CssMinimizerPlugin(),
 				  ]
 				: [],

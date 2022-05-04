@@ -14,6 +14,7 @@ const devServerConfig: ServerConfiguration = {
 		directory: paths.appPublicDirectory,
 	},
 	historyApiFallback: {
+		index: '/',
 		disableDotRule: true,
 	},
 	allowedHosts: 'all',

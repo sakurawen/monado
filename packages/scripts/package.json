@@ -1,6 +1,6 @@
 {
   "name": "@monado/scripts",
-  "version": "0.0.36",
+  "version": "0.0.38",
   "description": "react应用零配置构建工具",
   "main": "index.js",
   "bin": {
@@ -12,7 +12,9 @@
   },
   "keywords": [
     "react",
-    "monado"
+    "monado",
+    "monado-scripts",
+    "react-cli"
   ],
   "author": "",
   "license": "ISC",
