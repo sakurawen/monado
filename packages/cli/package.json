@@ -1,6 +1,6 @@
 {
   "name": "@monado/cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "创建react项目的脚手架",
   "main": "lib/index.js",
   "bin": {
@@ -15,7 +15,7 @@
     "react cli"
   ],
   "author": "wen",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^17.0.21",
     "@types/validate-npm-package-name": "^3.0.3"

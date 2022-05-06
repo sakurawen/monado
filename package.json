@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "wen",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
