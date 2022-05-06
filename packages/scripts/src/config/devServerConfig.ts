@@ -26,7 +26,6 @@ const devServerConfig: ServerConfiguration = {
 			warnings: false,
 		},
 	},
-	proxy: {},
 };
 
 export default devServerConfig;

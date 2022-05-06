@@ -11,11 +11,12 @@ const start = () => {
 	process.env.NODE_ENV = 'development';
 	const monadoConfig = files.loadMomadoConfig();
 	if (monadoConfig) {
-    devServerConfig.port = monadoConfig.server?.port || devServerConfig.port;
+		devServerConfig.port = monadoConfig.devServer?.port || devServerConfig.port;
+		devServerConfig.proxy = monadoConfig.devServer?.proxy || undefined;
 	}
 	const conf = webpackConfig(monadoConfig);
 	const compiler = Webpack(conf);
-  
+
 	compiler.hooks.invalid.tap('invalid', () => {
 		console.log(chalk.blue.bold('compiling...'));
 	});

@@ -5,7 +5,7 @@ import start from './actions/start';
 
 const program = new Command();
 
-program.version(pkg.getVersion()).alias('-v');
+program.version(pkg.getVersion(),"-v");
 program
 	.command('build')
 	.description('构建应用')

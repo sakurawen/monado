@@ -3,7 +3,7 @@
 		"baseUrl": "./",
 		"jsx": "react-jsx",
     "allowJs": true,
-		"outDir": "lib",
+		"outDir": "dist",
 		"target": "ES2018",
     "pretty":true,
 		"module": "commonjs",
@@ -17,6 +17,6 @@
 		"strict": true,
 		"skipLibCheck": true
 	},
-	"exclude": ["lib", "node_modules", "bin"],
+	"exclude": ["dist", "node_modules", "bin"],
 	"include": ["src/**/*", "index.d.ts", "src/utils/.ts"]
 }
