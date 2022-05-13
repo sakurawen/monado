@@ -177,10 +177,17 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		module: {
 			rules: [
 				{
-					test: /\.(png|jpe?g|gif|ico)$/i,
+					test: /\.(png|jpe?g|gif|ico|webp)$/i,
 					type: 'asset/resource',
 					generator: {
 						filename: 'static/image/[name]-[contenthash:6][ext]',
+					},
+				},
+				{
+					test: /\.(m4a|mp3|acc|mp4|mov|ogg|webm)$/i,
+					type: 'asset/resource',
+					generator: {
+						filename: 'static/media/[name]-[contenthash:6][ext]',
 					},
 				},
 				{
@@ -210,7 +217,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 					},
 				},
 				{
-					test: /\.(woff|woff2|ttf|eot)$/i,
+					test: /\.(woff|woff2|eot|ttf|otf)$/i,
 					type: 'asset/resource',
 					generator: {
 						filename: 'static/font/[name]-[contenthash:6][ext]',
