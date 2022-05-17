@@ -70,6 +70,7 @@ declare module '*.mdx' {
 }
 
 export type MonadoConfiguration = {
+	publicPath?: string;
 	devServer?: {
 		port?: number;
 		proxy: Configuration['proxy'];

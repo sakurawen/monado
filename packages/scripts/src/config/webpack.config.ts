@@ -151,12 +151,14 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			clean: true,
 			filename: 'static/js/[name]-[contenthash:6].js',
 			path: paths.appOutput,
-			publicPath: '/',
+			publicPath: monadoConf?.publicPath ? monadoConf?.publicPath : '/',
 		},
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
-		stats: 'errors-only',
+		stats: {
+      errorDetails:true,
+    },
 		performance: false,
 		resolve: {
 			symlinks: true,
