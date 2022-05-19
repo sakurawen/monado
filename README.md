@@ -44,6 +44,7 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 
 ```json
 {
+  "publicPath":"/",
 	"devServer": {
 		"port": 4000,
 		"proxy": {
