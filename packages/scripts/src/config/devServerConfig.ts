@@ -18,7 +18,7 @@ const devServerConfig: ServerConfiguration = {
 		disableDotRule: true,
 	},
 	allowedHosts: 'all',
-	port: 3670,
+	port: 5000,
 	client: {
 		logging: 'error',
 		overlay: {

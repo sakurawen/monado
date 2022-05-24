@@ -91,6 +91,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						typescriptPath: resolve.sync('typescript', {
 							basedir: paths.appNodeModules,
 						}),
+						configFile: paths.AppTSConfig,
 						configOverwrite: {
 							compilerOptions: {
 								noEmit: true,
@@ -157,8 +158,8 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
 		stats: {
-      errorDetails:true,
-    },
+			errorDetails: true,
+		},
 		performance: false,
 		resolve: {
 			symlinks: true,
