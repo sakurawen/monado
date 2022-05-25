@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import globby from 'globby';
 import path from 'path';
-import { MonadoConfiguration } from '../../index';
+import { MonadoConfiguration } from '../types';
 
 /**
  * 加载配置文件

@@ -13,7 +13,7 @@ import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
 import paths from '../utils/paths';
 import resolve from 'resolve';
-import { MonadoConfiguration } from 'index';
+import { MonadoConfiguration } from '../types';
 
 const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
@@ -145,7 +145,6 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		}
 		return plugins;
 	};
-
 	return {
 		entry: paths.appEntry,
 		output: {

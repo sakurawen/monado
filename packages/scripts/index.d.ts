@@ -1,8 +1,6 @@
 /// <reference types="react-dom" />
 /// <reference types="react" />
 
-import { Configuration } from 'webpack-dev-server';
-
 declare module '*.avif' {
 	const src: string;
 	export default src;
@@ -69,18 +67,3 @@ declare module '*.mdx' {
 	export default MDXComponent;
 }
 
-export type MonadoConfiguration = {
-	publicPath?: string;
-	devServer?: {
-		port?: number;
-		proxy: Configuration['proxy'];
-	};
-	featrue?: {
-		mdx?: boolean;
-		cssModule: Boolean;
-		scss?: boolean;
-	};
-	plugins?: {
-		bundleAnalyzer?: boolean;
-	};
-};
