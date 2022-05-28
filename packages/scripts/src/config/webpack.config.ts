@@ -20,6 +20,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isProduction = process.env.NODE_ENV === 'production';
 	const useTailwindcss = fs.existsSync(paths.AppTailwindcssConfig);
 	const useTypescript = fs.existsSync(paths.AppTSConfig);
+	const usePostcssConfig = fs.existsSync(paths.appPostCssConfig);
 
 	const enableCssModule = monadoConf?.featrue?.cssModule === true;
 	const enableScss = monadoConf?.featrue?.scss === true;
@@ -45,6 +46,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 				loader: require.resolve('postcss-loader'),
 				options: {
 					postcssOptions: {
+						config: usePostcssConfig ? paths.appPostCssConfig : false,
 						plugins: [
 							useTailwindcss && 'tailwindcss',
 							'postcss-flexbugs-fixes',
