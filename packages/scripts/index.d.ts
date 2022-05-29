@@ -1,5 +1,6 @@
 /// <reference types="react-dom" />
 /// <reference types="react" />
+/// <reference types="@types/node" />
 
 declare module '*.avif' {
 	const src: string;
