@@ -40,6 +40,7 @@ async function create(projectName: string) {
 		spinner.succeed('模板创建成功');
 	} catch {
 		spinner.fail('下载模板失败，请检查网络');
+		return;
 	}
 	const gitInstalled = git.checkInstalled();
 	if (gitInstalled) {
