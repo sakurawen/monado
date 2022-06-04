@@ -1,5 +1,4 @@
 import { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
@@ -14,6 +13,7 @@ import fs from 'fs-extra';
 import paths from '../utils/paths';
 import resolve from 'resolve';
 import { MonadoConfiguration } from '../types';
+import path from 'path';
 
 const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
@@ -21,10 +21,21 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const useTailwindcss = fs.existsSync(paths.AppTailwindcssConfig);
 	const useTypescript = fs.existsSync(paths.AppTSConfig);
 	const usePostcssConfig = fs.existsSync(paths.appPostCssConfig);
-
 	const enableCssModule = monadoConf?.featrue?.cssModule === true;
 	const enableScss = monadoConf?.featrue?.scss === true;
 	const enableMdx = monadoConf?.featrue?.mdx === true;
+
+	const enableAlias = Object.keys(monadoConf?.alias || []).length !== 0;
+
+	const customAlias = enableAlias
+		? Object.entries(monadoConf?.alias || []).reduce(
+				(acc, [key, val]: [string, string]) => {
+					acc[key] = path.resolve(process.cwd(), val);
+					return acc;
+				},
+				{} as Record<string, string>
+		  )
+		: {};
 
 	const enbaleBundleAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
 
@@ -123,7 +134,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			plugins.push(
 				...([
 					new Webpackbar({
-						name: 'monado',
+						name: 'monado-scripts',
 						color: '#2dd4bf',
 					}),
 					new MiniCssExtractPlugin({
@@ -164,12 +175,8 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		performance: false,
 		resolve: {
 			symlinks: true,
+			alias: customAlias,
 			modules: ['node_modules', paths.appNodeModules],
-			plugins: [
-				new TsconfigPathsPlugin({
-					configFile: paths.AppTSConfig,
-				}),
-			],
 			extensions: [
 				'.js',
 				'.jsx',

@@ -41,6 +41,9 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 			"/api": "http://localhost:9000"
 		}
 	},
+  "alias":{
+    "@":"src"
+  },
 	"featrue": {
 		"mdx": true,
 		"cssModule": true,
@@ -72,15 +75,12 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 ```
 
 ### 别名配置
-
-直接在`tsconfig.json`文件中配置，语法与配置 typescript 文件配置别名相同，重启服务即可生效
-
+在monado.config.json的alias字段下配置别名
+以下为将`@`作为项目根目录下`src`目录别名的配置
 ```json
 {
-	"compilerOptions": {
-		"paths": {
-			"@/*": ["src/*"]
-		}
-	}
+ "alias":{
+    "@":"src"
+  },
 }
 ```

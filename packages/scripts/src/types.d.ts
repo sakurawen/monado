@@ -6,6 +6,9 @@ export type MonadoConfiguration = {
 		port?: number;
 		proxy: DevDevConfiguration['proxy'];
 	};
+	alias: {
+		[key: string]: string;
+	};
 	featrue?: {
 		mdx?: boolean;
 		cssModule: Boolean;
