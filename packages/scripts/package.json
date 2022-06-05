@@ -1,6 +1,6 @@
 {
   "name": "@monado/scripts",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "description": "react应用零配置构建工具",
   "main": "index.js",
   "bin": {
