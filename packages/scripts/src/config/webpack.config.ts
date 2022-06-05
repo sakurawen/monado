@@ -169,9 +169,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
-		stats: {
-			errorDetails: true,
-		},
+		stats: 'errors-only',
 		performance: false,
 		resolve: {
 			symlinks: true,
