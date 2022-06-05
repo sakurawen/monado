@@ -1,6 +1,7 @@
 import Webpack from 'webpack';
 import { webpackConfig } from '../config';
 import { files } from '../utils';
+import log from '../utils/log';
 
 /**
  * 启动打包
@@ -13,18 +14,18 @@ const build = () => {
 	compiler.run((err, stats) => {
 		stats?.toJson('minimal');
 		if (err) {
-			console.error('build error:', err);
+			log.fail('build error:', err);
 		}
 		if (stats?.hasWarnings()) {
 			console.warn(stats.hasWarnings());
 		}
 		if (stats?.hasErrors()) {
-			console.error(new Error('Build failed with errors.'));
-			console.error('stats has error:', stats.toString());
+			log.fail('build failed with errors.');
+			log.fail('stats has error:', stats.toString());
 			return;
 		}
 		compiler.close(() => {
-			console.log('complier close');
+			log.success('ready', 'build successfully');
 		});
 	});
 };

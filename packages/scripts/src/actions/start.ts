@@ -3,6 +3,7 @@ import { webpackConfig, devServerConfig } from '../config';
 import WebpackDevServer from 'webpack-dev-server';
 import { files } from '../utils';
 import chalk from 'chalk';
+import log from '../utils/log';
 
 /**
  * 启动开发服务器
@@ -18,16 +19,27 @@ const start = () => {
 	const compiler = Webpack(conf);
 
 	compiler.hooks.invalid.tap('invalid', () => {
-		console.log(chalk.blue.bold('compiling...'));
+		log.info('wait', 'compiling...');
 	});
 
 	compiler.hooks.done.tap('done', () => {
-		console.log(chalk.green.bold('compiler success'));
+		log.success('ready', 'compiler success');
 	});
 
 	const devServer = new WebpackDevServer(devServerConfig, compiler);
 
-	devServer.startCallback(() => {});
+	devServer.startCallback((err) => {
+		if (err) {
+			console.log(chalk.red(err));
+			devServer.close();
+			process.exit();
+		}
+		const port = monadoConfig?.devServer?.port
+			? monadoConfig.devServer.port
+			: 5000;
+		const url = chalk.cyan(`http://localhost:${port}`);
+		log.success('start', `started server on  ${url}`);
+	});
 };
 
 export default start;

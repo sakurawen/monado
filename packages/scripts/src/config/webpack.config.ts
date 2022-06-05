@@ -134,8 +134,8 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			plugins.push(
 				...([
 					new Webpackbar({
-						name: 'monado-scripts',
-						color: '#2dd4bf',
+						name: 'Monado Scripts',
+						color: '#10b981',
 					}),
 					new MiniCssExtractPlugin({
 						filename: 'static/css/[name]-[contenthash:6].css',
@@ -159,6 +159,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		return plugins;
 	};
 	return {
+    
 		entry: paths.appEntry,
 		output: {
 			clean: true,
@@ -166,6 +167,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			path: paths.appOutput,
 			publicPath: monadoConf?.publicPath ? monadoConf?.publicPath : '/',
 		},
+    
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
@@ -366,6 +368,9 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			},
 			usedExports: true,
 		},
+    infrastructureLogging:{
+      level:"none"
+    },
 	};
 };
 

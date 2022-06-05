@@ -17,6 +17,7 @@ const devServerConfig: ServerConfiguration = {
 		index: '/',
 		disableDotRule: true,
 	},
+  
 	allowedHosts: 'all',
 	port: 5000,
 	client: {
