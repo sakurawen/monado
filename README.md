@@ -54,15 +54,26 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 	"alias": {
 		"@": "src"
 	},
-	"featrue": {
-		"mdx": true,
-		"cssModule": true,
-		"scss": true
-	},
 	"plugins": {
 		"bundleAnalyzer": false
 	}
 }
+```
+
+### 启用 mdx
+
+安装@mdx-js/react 后 monado-scirpts 自动启用 mdx-loader
+
+```shell
+npm install @mdx-js/react
+```
+
+### 启用 scss
+
+安装 sass 后 monado-scirpts 自动启用 sass-loader,并支持 css module
+
+```shell
+npm install sass
 ```
 
 ### 开发代理配置

@@ -14,6 +14,7 @@ import paths from '../utils/paths';
 import resolve from 'resolve';
 import { MonadoConfiguration } from '../types';
 import path from 'path';
+import { loadProjectPackageJson } from '../utils/files';
 
 const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
@@ -21,9 +22,17 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const useTailwindcss = fs.existsSync(paths.AppTailwindcssConfig);
 	const useTypescript = fs.existsSync(paths.AppTSConfig);
 	const usePostcssConfig = fs.existsSync(paths.appPostCssConfig);
-	const enableCssModule = monadoConf?.featrue?.cssModule === true;
-	const enableScss = monadoConf?.featrue?.scss === true;
-	const enableMdx = monadoConf?.featrue?.mdx === true;
+	const projPackageJSON = loadProjectPackageJson();
+
+	const useMDX = !!(
+		projPackageJSON?.dependencies['@mdx-js/react'] ||
+		projPackageJSON?.devDependencies['@mdx-js/react']
+	);
+
+	const useScss = !!(
+		projPackageJSON?.dependencies['sass'] ||
+		projPackageJSON?.devDependencies['sass']
+	);
 
 	const enableAlias = Object.keys(monadoConf?.alias || []).length !== 0;
 
@@ -104,6 +113,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						typescriptPath: resolve.sync('typescript', {
 							basedir: paths.appNodeModules,
 						}),
+						memoryLimit: 4396,
 						configFile: paths.AppTSConfig,
 						configOverwrite: {
 							compilerOptions: {
@@ -116,6 +126,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						},
 						mode: 'write-references',
 					},
+					logger: undefined,
 					issue: {
 						include: [{ file: '**/src/**/*.{ts,tsx}' }],
 						exclude: [],
@@ -159,7 +170,6 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		return plugins;
 	};
 	return {
-    
 		entry: paths.appEntry,
 		output: {
 			clean: true,
@@ -167,7 +177,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			path: paths.appOutput,
 			publicPath: monadoConf?.publicPath ? monadoConf?.publicPath : '/',
 		},
-    
+
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
 		devtool: isDevelopment && 'cheap-module-source-map',
@@ -246,7 +256,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						esModule: true,
 					}),
 				},
-				enableCssModule && {
+				{
 					test: /\.module\.css$/,
 					use: getStyleloaders({
 						modules: {
@@ -259,7 +269,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						esModule: true,
 					}),
 				},
-				enableScss && {
+				useScss && {
 					test: /\.(sass|scss)$/i,
 					exclude: /\.module\.(sass|scss)$/,
 					use: getStyleloaders(
@@ -273,7 +283,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						'sass-loader'
 					),
 				},
-				enableScss && {
+				useScss && {
 					test: /\.module\.(sass|scss)$/i,
 					use: getStyleloaders(
 						{
@@ -318,7 +328,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						},
 					},
 				},
-				enableMdx && {
+				useMDX && {
 					test: /\.mdx?$/,
 					use: [
 						{
@@ -368,9 +378,9 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			},
 			usedExports: true,
 		},
-    infrastructureLogging:{
-      level:"none"
-    },
+		infrastructureLogging: {
+			level: 'none',
+		},
 	};
 };
 

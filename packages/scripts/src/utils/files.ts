@@ -23,3 +23,13 @@ export const loadMomadoConfig = (): MonadoConfiguration | undefined => {
 	}
 	return config;
 };
+
+/**
+ * 加载项目package.json
+ */
+export const loadProjectPackageJson = () => {
+	const packageJson = fs.readJsonSync(
+		path.resolve(process.cwd(), 'package.json')
+	);
+	return packageJson;
+};

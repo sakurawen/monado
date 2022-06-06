@@ -1,5 +1,5 @@
-import { fs } from 'zx';
 import path from 'path';
+import { fs } from 'zx';
 import chalk from 'chalk';
 import Ora from 'ora';
 import { downloadTemplate } from '../utils/download.js';

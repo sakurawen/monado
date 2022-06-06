@@ -7,7 +7,10 @@ import { fs } from 'zx';
  */
 export const getVersion = () => {
 	const version = fs.readJsonSync(
-		path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../package.json')
+		path.resolve(
+			path.dirname(fileURLToPath(import.meta.url)),
+			'../../package.json'
+		)
 	).version as string;
 	return version;
 };
