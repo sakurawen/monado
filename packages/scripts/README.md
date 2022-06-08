@@ -41,26 +41,30 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 			"/api": "http://localhost:9000"
 		}
 	},
-  "alias":{
-    "@":"src"
-  },
+	"alias": {
+		"@": "src"
+	},
 	"plugins": {
 		"bundleAnalyzer": false
 	}
 }
 ```
 
-### 启用mdx
-安装@mdx-js/react后 monado-scirpts自动启用mdx-loader
-~~~shell
-npm install @mdx-js/react
-~~~
+### 启用 mdx
 
-### 启用scss
-安装sass后 monado-scirpts自动启用sass-loader,并支持css module
-~~~shell
+安装@mdx-js/react 后 monado-scirpts 自动启用 mdx-loader
+
+```shell
+npm install @mdx-js/react
+```
+
+### 启用 scss
+
+安装 sass 后 monado-scirpts 自动启用 sass-loader,并支持 css module
+
+```shell
 npm install sass
-~~~
+```
 
 ### 开发代理配置
 
@@ -82,12 +86,14 @@ npm install sass
 ```
 
 ### 别名配置
-在monado.config.json的alias字段下配置别名
+
+在 monado.config.json 的 alias 字段下配置别名
 以下为将`@`作为项目根目录下`src`目录别名的配置
+
 ```json
 {
- "alias":{
-    "@":"src"
-  },
+	"alias": {
+		"@": "src"
+	}
 }
 ```

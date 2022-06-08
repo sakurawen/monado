@@ -45,7 +45,7 @@ export default {
 	appWebpackCache: resolveApp('node_modules/.cache'),
 	appEntry: resolveApp(`src/${resolveAppEntryName()}`),
   appPostCssConfig:resolveApp("postcss.config.js"),
-	appOutput: resolveApp('dist'),
+	appOutput: resolveApp('build'),
 	appPublicDirectory: resolveApp('public'),
 	AppTailwindcssConfig: resolveApp('tailwind.config.js'),
 	AppTSConfig: resolveApp('tsconfig.json'),
