@@ -107,3 +107,10 @@ npm install sass
 	}
 }
 ```
+
+## 感谢
+感谢jetbrains提供开源开发许可证对本项目的支持
+
+<a href="https://www.jetbrains.com/community/opensource/#support">
+<img style="width:120px" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
+</a>
