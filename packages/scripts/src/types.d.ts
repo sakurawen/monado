@@ -9,11 +9,6 @@ export type MonadoConfiguration = {
 	alias: {
 		[key: string]: string;
 	};
-	featrue?: {
-		mdx?: boolean;
-		cssModule: Boolean;
-		scss?: boolean;
-	};
 	plugins?: {
 		bundleAnalyzer?: boolean;
 	};
