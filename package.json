@@ -2,12 +2,22 @@
   "name": "monado",
   "version": "1.0.2",
   "private": true,
-  "description": "",
+  "description": "用于创建react应用的脚手架及其打包工具、基于webpack和swc构建",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "url": "https://github.com/sakurawen/monado",
+    "type": "git"
+  },
+  "keywords": [
+    "react-cli",
+    "react",
+    "cli",
+    "starter",
+    "react-scripts"
+  ],
   "author": "wen",
   "license": "MIT",
   "dependencies": {

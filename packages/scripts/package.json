@@ -16,7 +16,13 @@
     "monado-scripts",
     "react-cli"
   ],
-  "author": "",
+  "homepage": "https://github.com/sakurawen/monado",
+  "author": "wen",
+  "repository": {
+    "url": "https://github.com/sakurawen/monado",
+    "type": "git",
+    "directory": "packages/scripts"
+  },
   "license": "MIT",
   "dependencies": {
     "@mdx-js/loader": "^2.1.1",

@@ -8,11 +8,19 @@
   },
   "type": "module",
   "scripts": {
-    "build": "rimraf ./lib&&tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf ./lib&&tsc"
+  },
+  "homepage": "https://github.com/sakurawen/monado",
+  "repository": {
+    "url": "https://github.com/sakurawen/monado",
+    "type": "git",
+    "directory": "packages/cli"
   },
   "keywords": [
-    "react cli"
+    "cli",
+    "create-react-app",
+    "monado",
+    "react"
   ],
   "author": "wen",
   "license": "MIT",
