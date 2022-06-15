@@ -4,7 +4,6 @@ import WebpackDevServer from 'webpack-dev-server';
 import { files } from '../utils';
 import chalk from 'chalk';
 import log from '../utils/log';
-
 /**
  * 启动开发服务器
  */
@@ -27,7 +26,6 @@ const start = () => {
 	});
 
 	const devServer = new WebpackDevServer(devServerConfig, compiler);
-
 	devServer.startCallback((err) => {
 		if (err) {
 			console.log(chalk.red(err));
@@ -37,8 +35,18 @@ const start = () => {
 		const port = monadoConfig?.devServer?.port
 			? monadoConfig.devServer.port
 			: 5000;
-		const url = chalk.cyan(`http://localhost:${port}`);
-		log.success('start', `started server on  ${url}`);
+
+		const url = chalk.hex('#10b981').bold(`http://localhost:${port}`);
+
+		const host = chalk
+			.hex('#10b981')
+			.bold(`http://${WebpackDevServer.internalIPSync('v4')}:${port}`);
+
+		console.log('');
+		log.success(
+			'start',
+			`started server\n\n You can now open a browser to view the project \n\n Local:           ${url}\n On Your Network: ${host}\n`
+		);
 	});
 };
 
