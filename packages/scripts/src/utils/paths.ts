@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { resolve } from 'path';
 import fs from 'fs';
 import globby from 'globby';
 
@@ -49,6 +49,7 @@ export default {
 	appPublicDirectory: resolveApp('public'),
 	AppTailwindcssConfig: resolveApp('tailwind.config.js'),
 	AppTSConfig: resolveApp('tsconfig.json'),
+  AppTSCachePath:resolve("node_modules/.cache/tscache.tsbuildinfo"),
 	appSrc: resolveApp('src'),
 	appHTMLTemplate: resolveApp('public/index.html'),
 };

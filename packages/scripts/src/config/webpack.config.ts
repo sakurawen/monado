@@ -118,7 +118,11 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						configFile: paths.AppTSConfig,
 						configOverwrite: {
 							compilerOptions: {
+								skipLibCheck: true,
+								sourceMap: isDevelopment,
 								noEmit: true,
+								incremental: true,
+								tsBuildInfoFile: paths.AppTSCachePath,
 							},
 						},
 						diagnosticOptions: {
@@ -127,7 +131,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 						},
 						mode: 'write-references',
 					},
-					logger: undefined,
+					logger: 'webpack-infrastructure',
 					issue: {
 						include: [{ file: '**/src/**/*.{ts,tsx}' }],
 						exclude: [],
@@ -384,7 +388,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 			usedExports: true,
 		},
 		infrastructureLogging: {
-			level: 'none',
+			level: 'error',
 		},
 	};
 };
