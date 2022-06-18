@@ -6,6 +6,7 @@ export type MonadoConfiguration = {
 		port?: number;
 		proxy: DevDevConfiguration['proxy'];
 	};
+	sourceMap: boolean;
 	alias: {
 		[key: string]: string;
 	};

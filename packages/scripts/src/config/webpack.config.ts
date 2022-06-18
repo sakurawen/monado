@@ -35,6 +35,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	);
 
 	const enableAlias = Object.keys(monadoConf?.alias || []).length !== 0;
+	const enableSourceMap = monadoConf?.sourceMap || false;
 
 	const customAlias = enableAlias
 		? Object.entries(monadoConf?.alias || []).reduce(
@@ -180,7 +181,11 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 
 		target: 'web',
 		mode: isDevelopment ? 'development' : 'production',
-		devtool: isDevelopment && 'cheap-module-source-map',
+		devtool: isDevelopment
+			? 'cheap-module-source-map'
+			: enableSourceMap
+			? 'cheap-module-source-map'
+			: false,
 		stats: 'errors-only',
 		performance: false,
 		resolve: {
