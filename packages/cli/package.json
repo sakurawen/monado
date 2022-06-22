@@ -18,6 +18,8 @@
   },
   "keywords": [
     "cli",
+    "@monado/cli",
+    "monado-cli",
     "create-react-app",
     "monado",
     "react"

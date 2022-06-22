@@ -1,28 +1,18 @@
-import { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import type { JsMinifyOptions as SwcOptions } from '@swc/core';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import HTMLWebpackPlugin from 'html-webpack-plugin';
-import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import Webpackbar from 'webpackbar';
 import fs from 'fs-extra';
-import paths from '../utils/paths';
-import resolve from 'resolve';
+import TerserPlugin from 'terser-webpack-plugin';
+import { Configuration, RuleSetRule } from 'webpack';
 import { MonadoConfiguration } from '../types';
-import path from 'path';
-import { loadProjectPackageJson } from '../utils/files';
+import { alias, files, paths } from '../utils';
+import { getStyleloaders } from './style';
+import { getPlugins } from './plugins';
 
 const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
-	const useTailwindcss = fs.existsSync(paths.AppTailwindcssConfig);
-	const useTypescript = fs.existsSync(paths.AppTSConfig);
-	const usePostcssConfig = fs.existsSync(paths.appPostCssConfig);
-	const projPackageJSON = loadProjectPackageJson();
+
+	const projPackageJSON = files.loadPackageJson();
 
 	const useMDX = !!(
 		projPackageJSON?.dependencies['@mdx-js/react'] ||
@@ -33,147 +23,12 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		projPackageJSON?.dependencies['sass'] ||
 		projPackageJSON?.devDependencies['sass']
 	);
-
-	const enableAlias = Object.keys(monadoConf?.alias || []).length !== 0;
+  
+	const useTypescript = fs.existsSync(paths.AppTSConfig);
+	const useAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
 	const enableSourceMap = monadoConf?.sourceMap || false;
+	const customAlias = alias.getCustomAlias(monadoConf?.alias);
 
-	const customAlias = enableAlias
-		? Object.entries(monadoConf?.alias || []).reduce(
-				(acc, [key, val]: [string, string]) => {
-					acc[key] = path.resolve(process.cwd(), val);
-					return acc;
-				},
-				{} as Record<string, string>
-		  )
-		: {};
-
-	const enbaleBundleAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
-
-	const getStyleloaders = (
-		cssLoaderOptions: string | { [key: string]: any },
-		preProcessor?: string
-	) => {
-		const loaders = [
-			{
-				loader: isDevelopment
-					? require.resolve('style-loader')
-					: MiniCssExtractPlugin.loader,
-			},
-			{
-				loader: require.resolve('css-loader'),
-				options: cssLoaderOptions,
-			},
-			{
-				loader: require.resolve('postcss-loader'),
-				options: {
-					postcssOptions: {
-						config: usePostcssConfig ? paths.appPostCssConfig : false,
-						plugins: [
-							useTailwindcss && 'tailwindcss',
-							'postcss-flexbugs-fixes',
-							'postcss-preset-env',
-							useTailwindcss && 'postcss-normalize',
-						].filter(Boolean),
-					},
-					sourceMap: isDevelopment,
-				},
-			},
-		];
-		if (preProcessor) {
-			loaders.push(
-				{
-					loader: require.resolve('resolve-url-loader'),
-					options: {
-						sourceMap: isDevelopment,
-						root: paths.appSrc,
-					},
-				},
-				{
-					loader: require.resolve(preProcessor),
-					options: {
-						sourceMap: true,
-					},
-				}
-			);
-		}
-		return loaders;
-	};
-
-	const getPlugins = () => {
-		const plugins: WebpackPluginInstance[] = [
-			new HTMLWebpackPlugin({
-				template: paths.appHTMLTemplate,
-			}),
-		];
-		if (useTypescript) {
-			plugins.push(
-				new ForkTsCheckerWebpackPlugin({
-					async: isDevelopment,
-					typescript: {
-						context: paths.app,
-						typescriptPath: resolve.sync('typescript', {
-							basedir: paths.appNodeModules,
-						}),
-						memoryLimit: 4396,
-						configFile: paths.AppTSConfig,
-						configOverwrite: {
-							compilerOptions: {
-								skipLibCheck: true,
-								sourceMap: isDevelopment,
-								noEmit: true,
-								incremental: true,
-								tsBuildInfoFile: paths.AppTSCachePath,
-							},
-						},
-						diagnosticOptions: {
-							semantic: true,
-							syntactic: true,
-						},
-						mode: 'write-references',
-					},
-					logger: 'webpack-infrastructure',
-					issue: {
-						include: [{ file: '**/src/**/*.{ts,tsx}' }],
-						exclude: [],
-					},
-				})
-			);
-		}
-		if (isDevelopment) {
-			plugins.push(
-				new ReactRefreshPlugin({
-					overlay: false,
-				})
-			);
-		}
-		if (isProduction) {
-			plugins.push(
-				...([
-					new Webpackbar({
-						name: 'Monado Scripts',
-						color: '#10b981',
-					}),
-					new MiniCssExtractPlugin({
-						filename: 'static/css/[name]-[contenthash:6].css',
-						chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
-					}),
-					enbaleBundleAnalyzer && new BundleAnalyzerPlugin(),
-					new CopyWebpackPlugin({
-						patterns: [
-							{
-								from: paths.appPublicDirectory,
-								to: paths.appOutput,
-								globOptions: {
-									ignore: ['**/index.html'],
-								},
-							},
-						],
-					}),
-				].filter(Boolean) as WebpackPluginInstance[])
-			);
-		}
-		return plugins;
-	};
 	return {
 		entry: paths.appEntry,
 		output: {
@@ -349,7 +204,10 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 				},
 			].filter(Boolean) as RuleSetRule[],
 		},
-		plugins: getPlugins(),
+		plugins: getPlugins({
+			useAnalyzer,
+			useTypescript,
+		}),
 		cache: isDevelopment
 			? {
 					type: 'filesystem',

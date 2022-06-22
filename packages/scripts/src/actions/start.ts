@@ -1,15 +1,15 @@
-import Webpack from 'webpack';
-import { webpackConfig, devServerConfig } from '../config';
-import WebpackDevServer from 'webpack-dev-server';
-import { files } from '../utils';
 import chalk from 'chalk';
-import log, { cleanConsole } from '../utils/log';
+import Webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import { devServerConfig, webpackConfig } from '../config';
+import { files, log } from '../utils';
+
 /**
  * 启动开发服务器
  */
 const start = () => {
 	process.env.NODE_ENV = 'development';
-	const monadoConfig = files.loadMomadoConfig();
+	const monadoConfig = files.loadConfig();
 	if (monadoConfig) {
 		devServerConfig.port = monadoConfig.devServer?.port || devServerConfig.port;
 		devServerConfig.proxy = monadoConfig.devServer?.proxy || undefined;
@@ -30,14 +30,14 @@ const start = () => {
 	});
 
 	const devServer = new WebpackDevServer(devServerConfig, compiler);
-  
+
 	devServer.startCallback((err) => {
 		if (err) {
 			console.log(chalk.red(err));
 			devServer.close();
 			process.exit();
 		}
-		cleanConsole();
+		log.clear();
 		const port = monadoConfig?.devServer?.port
 			? monadoConfig.devServer.port
 			: 5000;

@@ -1,14 +1,13 @@
 import Webpack from 'webpack';
 import { webpackConfig } from '../config';
-import { files } from '../utils';
-import log from '../utils/log';
+import { files, log } from '../utils';
 
 /**
  * 启动打包
  */
 const build = () => {
 	process.env.NODE_ENV = 'production';
-	const monadoConfig = files.loadMomadoConfig();
+	const monadoConfig = files.loadConfig();
 	const conf = webpackConfig(monadoConfig);
 	const compiler = Webpack(conf);
 	compiler.run((err, stats) => {
