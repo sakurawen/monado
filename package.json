@@ -20,6 +20,9 @@
   ],
   "author": "wen",
   "license": "MIT",
+  "engines": {
+    "node": "^14.17.0 || >=16.0.0"
+  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",

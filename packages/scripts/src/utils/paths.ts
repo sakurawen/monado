@@ -1,7 +1,6 @@
 import path, { resolve } from 'path';
 import fs from 'fs';
-import globby from 'globby';
-
+import {globbySync} from 'globby';
 // 应用根文件夹
 export const AppDirectory = fs.realpathSync(process.cwd());
 
@@ -20,7 +19,7 @@ const resolveApp = (resolvePath: string) =>
  * 后缀 .tsx>.ts>.jsx>.js
  */
 const resolveAppEntryName = () => {
-	const files = globby.sync(['**/*'], {
+	const files = globbySync(['**/*'], {
 		cwd: path.resolve(process.cwd(), 'src'),
 	});
 	const entryName = files.find((filename) => {

@@ -4,9 +4,9 @@ import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration, RuleSetRule } from 'webpack';
 import { MonadoConfiguration } from '../types';
-import { alias, files, paths } from '../utils';
-import { getStyleloaders } from './style';
-import { getPlugins } from './plugins';
+import { alias, files, paths, __ } from '../utils/index.js';
+import { getStyleloaders } from './style.js';
+import { getPlugins } from './plugins.js';
 
 const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
@@ -23,7 +23,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 		projPackageJSON?.dependencies['sass'] ||
 		projPackageJSON?.devDependencies['sass']
 	);
-  
+
 	const useTypescript = fs.existsSync(paths.AppTSConfig);
 	const useAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
 	const enableSourceMap = monadoConf?.sourceMap || false;
@@ -79,7 +79,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 					test: /\.svg$/i,
 					use: [
 						{
-							loader: require.resolve('@svgr/webpack'),
+							loader: '@svgr/webpack',
 							options: {
 								prettier: false,
 								svgo: false,
@@ -91,7 +91,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 							},
 						},
 						{
-							loader: require.resolve('file-loader'),
+							loader: 'file-loader',
 							options: {
 								name: 'static/image/[name]-[contenthash:6].[ext]',
 							},
@@ -167,7 +167,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 					include: paths.appSrc,
 					exclude: /(node_modules|bower_components)/,
 					use: {
-						loader: require.resolve('swc-loader'),
+						loader: 'swc-loader',
 						options: {
 							env: {
 								coreJs: 3,
@@ -196,7 +196,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 					test: /\.mdx?$/,
 					use: [
 						{
-							loader: require.resolve('@mdx-js/loader'),
+							loader: '@mdx-js/loader',
 							/** @type {import('@mdx-js/loader').Options} */
 							options: {},
 						},
@@ -214,7 +214,7 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 					store: 'pack',
 					cacheDirectory: paths.appWebpackCache,
 					buildDependencies: {
-						config: [__filename],
+						config: [__.filename()],
 						tsconfig: [paths.AppTSConfig].filter((f) => fs.existsSync(f)),
 					},
 			  }

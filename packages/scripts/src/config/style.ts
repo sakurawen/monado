@@ -1,6 +1,6 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import fs from 'fs';
-import { paths } from '../utils';
+import { paths } from '../utils/index.js';
 
 export const getStyleloaders = (
 	cssLoaderOptions: string | { [key: string]: any },
@@ -12,15 +12,15 @@ export const getStyleloaders = (
 	const loaders = [
 		{
 			loader: isDevelopment
-				? require.resolve('style-loader')
+				? 'style-loader'
 				: MiniCssExtractPlugin.loader,
 		},
 		{
-			loader: require.resolve('css-loader'),
+			loader: 'css-loader',
 			options: cssLoaderOptions,
 		},
 		{
-			loader: require.resolve('postcss-loader'),
+			loader: 'postcss-loader',
 			options: {
 				postcssOptions: {
 					config: usePostcssConfig ? paths.appPostCssConfig : false,
@@ -38,14 +38,14 @@ export const getStyleloaders = (
 	if (preProcessor) {
 		loaders.push(
 			{
-				loader: require.resolve('resolve-url-loader'),
+				loader: 'resolve-url-loader',
 				options: {
 					sourceMap: isDevelopment,
 					root: paths.appSrc,
 				},
 			},
 			{
-				loader: require.resolve(preProcessor),
+				loader: preProcessor,
 				options: {
 					sourceMap: true,
 				},

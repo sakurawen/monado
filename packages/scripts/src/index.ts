@@ -1,7 +1,7 @@
 import { Command } from 'commander';
-import { pkg } from './utils';
-import build from './actions/build';
-import start from './actions/start';
+import { pkg } from './utils/index.js';
+import build from './actions/build.js';
+import start from './actions/start.js';
 
 const program = new Command();
 

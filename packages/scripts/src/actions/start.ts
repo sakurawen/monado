@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import { devServerConfig, webpackConfig } from '../config';
-import { files, log } from '../utils';
+import { devServerConfig, webpackConfig } from '../config/index.js';
+import { files, log } from '../utils/index.js';
 
 /**
  * 启动开发服务器

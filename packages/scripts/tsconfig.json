@@ -3,10 +3,10 @@
 		"baseUrl": "./",
 		"jsx": "react-jsx",
     "allowJs": true,
-		"outDir": "dist",
+		"outDir": "lib",
 		"target": "ES2018",
     "pretty":true,
-		"module": "commonjs",
+		"module": "es2020",
     "noUnusedLocals":true,
 		"moduleResolution": "node",
     "stripInternal":true,
@@ -17,6 +17,6 @@
 		"strict": true,
 		"skipLibCheck": true
 	},
-	"exclude": ["dist", "node_modules", "bin"],
+	"exclude": ["lib", "node_modules", "bin"],
 	"include": ["src/**/*", "index.d.ts"]
 }

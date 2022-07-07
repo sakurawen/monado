@@ -1,6 +1,6 @@
 import Webpack from 'webpack';
-import { webpackConfig } from '../config';
-import { files, log } from '../utils';
+import { webpackConfig } from '../config/index.js';
+import { files, log } from '../utils/index.js';
 
 /**
  * 启动打包

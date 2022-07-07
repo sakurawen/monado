@@ -1,5 +1,4 @@
 import { WebpackPluginInstance } from 'webpack';
-import { paths } from '../utils';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import resolve from 'resolve';
@@ -8,6 +7,7 @@ import Webpackbar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { paths } from '../utils/index.js';
 
 type pluginOptions = {
 	useAnalyzer: boolean;

@@ -1,20 +1,28 @@
 {
   "name": "@monado/scripts",
-  "version": "0.0.61",
+  "version": "1.0.0",
   "description": "react应用零配置构建工具",
   "main": "index.js",
   "bin": {
     "monado-scripts": "./bin/monado-scripts.js"
   },
   "types": "./index.d.ts",
+  "type": "module",
   "scripts": {
-    "build": "rimraf ./dist && tsc -p tsconfig.json"
+    "build": "rimraf ./lib && tsc -p tsconfig.json"
   },
   "keywords": [
     "react",
     "monado",
     "monado-scripts",
     "react-cli"
+  ],
+  "files": [
+    "lib",
+    "bin",
+    "index.d.ts",
+    "LICENSE",
+    "README.md"
   ],
   "homepage": "https://github.com/sakurawen/monado",
   "author": "wen",
@@ -28,23 +36,23 @@
     "@mdx-js/loader": "^2.1.2",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.7",
     "@svgr/webpack": "^6.2.1",
-    "@swc/core": "^1.2.205",
-    "@swc/helpers": "^0.4.2",
+    "@swc/core": "^1.2.210",
+    "@swc/helpers": "^0.4.3",
     "@types/fs-extra": "^9.0.13",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.0.3",
     "@types/resolve": "^1.20.2",
     "@types/webpack-bundle-analyzer": "^4.4.1",
-    "browserslist": "^4.21.0",
-    "chalk": "4.1.2",
-    "commander": "^9.0.0",
+    "browserslist": "^4.21.1",
+    "chalk": "5.0.1",
+    "commander": "^9.3.0",
     "copy-webpack-plugin": "^11.0.0",
-    "core-js": "^3.23.2",
+    "core-js": "^3.23.3",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
     "file-loader": "^6.2.0",
-    "fork-ts-checker-webpack-plugin": "^7.2.1",
-    "fs-extra": "^10.0.1",
-    "globby": "11.1.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.11",
+    "fs-extra": "^10.1.0",
+    "globby": "13.1.2",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss": "^8.4.14",
@@ -54,10 +62,10 @@
     "postcss-preset-env": "^7.7.2",
     "react-refresh": "0.14.0",
     "regenerator-runtime": "^0.13.9",
-    "resolve": "^1.22.0",
+    "resolve": "^1.22.1",
     "resolve-url-loader": "^5.0.0",
     "rimraf": "^3.0.2",
-    "sass-loader": "^13.0.1",
+    "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
     "swc-loader": "^0.2.3",
     "tailwindcss": "^3.1.4",
@@ -65,7 +73,7 @@
     "typescript": "^4.7.4",
     "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-dev-server": "^4.9.2",
+    "webpack-dev-server": "^4.9.3",
     "webpackbar": "^5.0.2"
   }
 }
