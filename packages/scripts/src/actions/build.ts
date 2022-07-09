@@ -13,19 +13,16 @@ const build = () => {
 	compiler.run((err, stats) => {
 		stats?.toJson('minimal');
 		if (err) {
-			log.fail('build error:', err);
+			log.fail('Compiled error:', err);
 		}
 		if (stats?.hasWarnings()) {
 			console.warn(stats.hasWarnings());
 		}
 		if (stats?.hasErrors()) {
-			log.fail('build failed with errors.');
 			log.fail('stats has error:', stats.toString());
 			return;
 		}
-		compiler.close(() => {
-			log.success('ready', 'build successfully');
-		});
+		compiler.close(() => {});
 	});
 };
 

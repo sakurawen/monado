@@ -4,3 +4,4 @@ export * as alias from './alias.js';
 export { default as paths } from './paths.js';
 export * as log from './log.js';
 export * as __ from './__.js';
+export { default as theme } from './theme.js';

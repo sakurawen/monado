@@ -1,18 +1,19 @@
-import { WebpackPluginInstance } from 'webpack';
+import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import resolve from 'resolve';
-import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import Webpackbar from 'webpackbar';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
+import resolve from 'resolve';
+import { WebpackPluginInstance } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { paths } from '../utils/index.js';
+import ProcessPlugin from '../plugins/processPlugin.js';
 
 type pluginOptions = {
 	useAnalyzer: boolean;
 	useTypescript: boolean;
 };
+
 export const getPlugins = (options: pluginOptions) => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
@@ -65,10 +66,7 @@ export const getPlugins = (options: pluginOptions) => {
 	if (isProduction) {
 		plugins.push(
 			...([
-				new Webpackbar({
-					name: 'Monado Scripts',
-					color: '#10b981',
-				}),
+				new ProcessPlugin(),
 				new MiniCssExtractPlugin({
 					filename: 'static/css/[name]-[contenthash:6].css',
 					chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',

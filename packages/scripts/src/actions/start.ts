@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import { devServerConfig, webpackConfig } from '../config/index.js';
-import { files, log } from '../utils/index.js';
+import { files, log, theme } from '../utils/index.js';
 
 /**
  * 启动开发服务器
@@ -33,7 +33,7 @@ const start = () => {
 
 	devServer.startCallback((err) => {
 		if (err) {
-			console.log(chalk.red(err));
+			console.log(chalk.hex(theme.error)(err));
 			devServer.close();
 			process.exit();
 		}
