@@ -1,35 +1,13 @@
 import chalk from 'chalk';
-import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import { devServerConfig, webpackConfig } from '../config/index.js';
-import { files, log, theme } from '../utils/index.js';
-
+import { log, theme } from '../utils/index.js';
+import { getDevServer } from '../config/complier.js';
 /**
  * 启动开发服务器
  */
-const start = () => {
+const start = async () => {
 	process.env.NODE_ENV = 'development';
-	const monadoConfig = files.loadConfig();
-	if (monadoConfig) {
-		devServerConfig.port = monadoConfig.devServer?.port || devServerConfig.port;
-		devServerConfig.proxy = monadoConfig.devServer?.proxy || undefined;
-	}
-	const conf = webpackConfig(monadoConfig);
-	const compiler = Webpack(conf);
-
-	compiler.hooks.invalid.tap('invalid', () => {
-		log.info('wait', 'compiling...');
-	});
-
-	compiler.hooks.done.tap('done', () => {
-		log.success('ready', 'compiler successful');
-	});
-
-	compiler.hooks.failed.tap('failed', (err) => {
-		log.fail('error', 'compiler failed:', err.toString());
-	});
-
-	const devServer = new WebpackDevServer(devServerConfig, compiler);
+	const devServer = await getDevServer();
 
 	devServer.startCallback((err) => {
 		if (err) {
@@ -38,16 +16,16 @@ const start = () => {
 			process.exit();
 		}
 		log.clear();
-		const port = monadoConfig?.devServer?.port
-			? monadoConfig.devServer.port
-			: 5000;
-
-		const url = chalk.hex('#10b981').bold(`http://localhost:${port}`);
-
+		const url = chalk
+			.hex('#10b981')
+			.bold(`http://localhost:${devServer.options.port}`);
 		const host = chalk
 			.hex('#10b981')
-			.bold(`http://${WebpackDevServer.internalIPSync('v4')}:${port}`);
-
+			.bold(
+				`http://${WebpackDevServer.internalIPSync('v4')}:${
+					devServer.options.port
+				}`
+			);
 		console.log('');
 		log.success(
 			'start',

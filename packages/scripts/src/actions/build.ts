@@ -1,15 +1,12 @@
-import Webpack from 'webpack';
-import { webpackConfig } from '../config/index.js';
-import { files, log } from '../utils/index.js';
+import { getBuildCompiler } from '../config/complier.js';
+import { log } from '../utils/index.js';
 
 /**
  * 启动打包
  */
 const build = () => {
 	process.env.NODE_ENV = 'production';
-	const monadoConfig = files.loadConfig();
-	const conf = webpackConfig(monadoConfig);
-	const compiler = Webpack(conf);
+	const compiler = getBuildCompiler();
 	compiler.run((err, stats) => {
 		stats?.toJson('minimal');
 		if (err) {

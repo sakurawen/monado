@@ -6,7 +6,7 @@ import { MonadoConfiguration } from '../types';
 /**
  * 加载配置文件
  */
-export const loadConfig = (): MonadoConfiguration | undefined => {
+export const getMonadoConfiguration = (): MonadoConfiguration | undefined => {
 	const files = globbySync(['**/*'], {
 		cwd: path.resolve(process.cwd(), '.'),
 	});
@@ -27,7 +27,7 @@ export const loadConfig = (): MonadoConfiguration | undefined => {
 /**
  * 加载项目package.json
  */
-export const loadPackageJson = () => {
+export const getPackageJson = () => {
 	const packageJson = fs.readJsonSync(
 		path.resolve(process.cwd(), 'package.json')
 	);

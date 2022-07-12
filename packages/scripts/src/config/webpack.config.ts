@@ -3,16 +3,16 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration, RuleSetRule } from 'webpack';
-import { MonadoConfiguration } from '../types';
+import type { MonadoConfiguration } from '../types';
 import { alias, files, paths, __ } from '../utils/index.js';
-import { getStyleloaders } from './style.js';
 import { getPlugins } from './plugins.js';
+import { getStyleloaders } from './loaders.js';
 
-const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
+const webpackBuildConfiguration = (monadoConf?: MonadoConfiguration): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
 
-	const projPackageJSON = files.loadPackageJson();
+	const projPackageJSON = files.getPackageJson();
 
 	const useMDX = !!(
 		projPackageJSON?.dependencies['@mdx-js/react'] ||
@@ -251,4 +251,4 @@ const webpackConfig = (monadoConf?: MonadoConfiguration): Configuration => {
 	};
 };
 
-export default webpackConfig;
+export default webpackBuildConfiguration;

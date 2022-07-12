@@ -1,2 +1,2 @@
-export { default as webpackConfig } from './webpack.config.js';
-export { default as devServerConfig } from './devServerConfig.js';
+export { default as webpackBuildConfiguration } from './webpack.config.js';
+export { default as webpackDevConfiguration } from './devServerConfig.js';

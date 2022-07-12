@@ -2,7 +2,7 @@
   "name": "@monado/scripts",
   "version": "1.0.1",
   "description": "react应用零配置构建工具",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "bin": {
     "monado-scripts": "./bin/monado-scripts.js"
   },
@@ -52,6 +52,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.11",
     "fs-extra": "^10.1.0",
+    "get-port": "^6.1.2",
     "globby": "13.1.2",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
@@ -73,5 +74,8 @@
     "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-dev-server": "^4.9.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2"
   }
 }

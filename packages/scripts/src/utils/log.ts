@@ -25,3 +25,4 @@ export const warn = (...args: (string | Error)[]) => {
 export const info = (tag: string, ...args: string[]) => {
 	console.log(chalk.hex(theme.info).bold(`[${tag}]`), '  - ', ...args);
 };
+
