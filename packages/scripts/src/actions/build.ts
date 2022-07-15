@@ -1,5 +1,6 @@
 import { getBuildCompiler } from '../config/complier.js';
 import { log } from '../utils/index.js';
+import Spinner from 'ora';
 
 /**
  * 启动打包
@@ -7,6 +8,8 @@ import { log } from '../utils/index.js';
 const build = () => {
 	process.env.NODE_ENV = 'production';
 	const compiler = getBuildCompiler();
+	const spinner = Spinner('compiled...');
+	spinner.start();
 	compiler.run((err, stats) => {
 		stats?.toJson('minimal');
 		if (err) {
@@ -17,8 +20,10 @@ const build = () => {
 		}
 		if (stats?.hasErrors()) {
 			log.fail('stats has error:', stats.toString());
+			spinner.fail('compiled fail');
 			return;
 		}
+		spinner.succeed('compiled successfully');
 		compiler.close(() => {});
 	});
 };

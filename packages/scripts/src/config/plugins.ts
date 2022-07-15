@@ -7,7 +7,6 @@ import resolve from 'resolve';
 import { WebpackPluginInstance } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { paths } from '../utils/index.js';
-import ProcessPlugin from '../plugins/processPlugin.js';
 
 type pluginOptions = {
 	useAnalyzer: boolean;
@@ -66,7 +65,6 @@ export const getPlugins = (options: pluginOptions) => {
 	if (isProduction) {
 		plugins.push(
 			...([
-				new ProcessPlugin(),
 				new MiniCssExtractPlugin({
 					filename: 'static/css/[name]-[contenthash:6].css',
 					chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
