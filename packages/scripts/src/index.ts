@@ -1,23 +1,20 @@
-import { Command } from 'commander';
-import { pkg } from './utils/index.js';
+import cac from 'cac';
 import build from './actions/build.js';
 import start from './actions/start.js';
+import { pkg } from './utils/index.js';
 
-const program = new Command();
+const cli = cac("monado-scripts");
 
-program.version(pkg.getVersion(), '-v');
-program
-	.command('build')
-	.description('构建应用')
-	.action(() => {
-		build();
-	});
+cli.version(pkg.getVersion());
 
-program
-	.command('start')
-	.description('启动开发服务器')
-	.action(() => {
-		start();
-	});
+cli.command('build', '构建应用').action(() => {
+	build();
+});
 
-program.parse(process.argv);
+cli.command('start', '启动开发服务器').action(() => {
+	start();
+});
+
+cli.help()
+
+cli.parse();
