@@ -5,10 +5,12 @@ import TerserPlugin from 'terser-webpack-plugin';
 import { Configuration, RuleSetRule } from 'webpack';
 import type { MonadoConfiguration } from '../types';
 import { alias, files, paths, __ } from '../utils/index.js';
-import { getPlugins } from './plugins.js';
 import { getStyleloaders } from './loaders.js';
+import { getPlugins } from './plugins.js';
 
-const webpackBuildConfiguration = (monadoConf?: MonadoConfiguration): Configuration => {
+const webpackBuildConfiguration = (
+	monadoConf?: MonadoConfiguration
+): Configuration => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
 
@@ -165,14 +167,15 @@ const webpackBuildConfiguration = (monadoConf?: MonadoConfiguration): Configurat
 				{
 					test: /\.(js|jsx|ts|tsx)$/i,
 					include: paths.appSrc,
-					exclude: /(node_modules|bower_components)/,
 					use: {
 						loader: 'swc-loader',
 						options: {
-							env: {
-								coreJs: 3,
-								mode: 'usage',
-							},
+							env: isProduction
+								? {
+										coreJs: 3,
+										mode: 'usage',
+								  }
+								: null,
 							jsc: {
 								externalHelpers: isProduction,
 								target: 'es5',
