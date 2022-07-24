@@ -3,7 +3,7 @@ import build from './actions/build.js';
 import start from './actions/start.js';
 import { pkg } from './utils/index.js';
 
-const cli = cac("monado-scripts");
+const cli = cac('monado-scripts');
 
 cli.version(pkg.getVersion());
 
@@ -15,6 +15,6 @@ cli.command('start', '启动开发服务器').action(() => {
 	start();
 });
 
-cli.help()
+cli.help();
 
 cli.parse();

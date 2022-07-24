@@ -1,6 +1,6 @@
 import path, { resolve } from 'path';
 import fs from 'fs';
-import {globbySync} from 'globby';
+import { globbySync } from 'globby';
 // 应用根文件夹
 export const AppDirectory = fs.realpathSync(process.cwd());
 
@@ -37,18 +37,37 @@ const resolveAppEntryName = () => {
 	return entryName || 'index.tsx';
 };
 
+type GetPublicPath = {
+	isDevelopment: boolean;
+	monadoConfPublicPath: string | undefined;
+	homepage: string | undefined;
+};
+
+export const getPublicPath = ({
+	isDevelopment,
+	monadoConfPublicPath,
+	homepage,
+}: GetPublicPath) => {
+	if (isDevelopment) return '/';
+	if (homepage) {
+		return homepage.endsWith('/') ? homepage : homepage + '/';
+	}
+	return monadoConfPublicPath;
+};
+
 export default {
-  AppDirectory,
+	getPublicPath,
+	AppDirectory,
 	app: resolveApp('.'),
 	appNodeModules: resolveApp('node_modules'),
 	appWebpackCache: resolveApp('node_modules/.cache'),
 	appEntry: resolveApp(`src/${resolveAppEntryName()}`),
-  appPostCssConfig:resolveApp("postcss.config.js"),
+	appPostCssConfig: resolveApp('postcss.config.js'),
 	appOutput: resolveApp('build'),
 	appPublicDirectory: resolveApp('public'),
 	AppTailwindcssConfig: resolveApp('tailwind.config.js'),
 	AppTSConfig: resolveApp('tsconfig.json'),
-  AppTSCachePath:resolve("node_modules/.cache/tscache.tsbuildinfo"),
+	AppTSCachePath: resolve('node_modules/.cache/tscache.tsbuildinfo'),
 	appSrc: resolveApp('src'),
 	appHTMLTemplate: resolveApp('public/index.html'),
 };

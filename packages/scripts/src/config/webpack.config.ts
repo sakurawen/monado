@@ -17,15 +17,16 @@ const webpackBuildConfiguration = (
 	const projPackageJSON = files.getPackageJson();
 
 	const useMDX = !!(
-		projPackageJSON?.dependencies['@mdx-js/react'] ||
-		projPackageJSON?.devDependencies['@mdx-js/react']
+		projPackageJSON?.dependencies?.['@mdx-js/react'] ||
+		projPackageJSON?.devDependencies?.['@mdx-js/react']
 	);
 
 	const useScss = !!(
-		projPackageJSON?.dependencies['sass'] ||
-		projPackageJSON?.devDependencies['sass']
+		projPackageJSON?.dependencies?.['sass'] ||
+		projPackageJSON?.devDependencies?.['sass']
 	);
 
+	const homepage = projPackageJSON.homepage;
 	const useTypescript = fs.existsSync(paths.AppTSConfig);
 	const useAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
 	const enableSourceMap = monadoConf?.sourceMap || false;
@@ -37,7 +38,11 @@ const webpackBuildConfiguration = (
 			clean: true,
 			filename: 'static/js/[name]-[contenthash:6].js',
 			path: paths.appOutput,
-			publicPath: monadoConf?.publicPath ? monadoConf?.publicPath : '/',
+			publicPath: paths.getPublicPath({
+				isDevelopment,
+				monadoConfPublicPath: monadoConf?.publicPath,
+				homepage,
+			}),
 		},
 
 		target: 'web',

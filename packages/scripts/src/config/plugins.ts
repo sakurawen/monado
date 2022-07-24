@@ -6,14 +6,17 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import resolve from 'resolve';
 import { WebpackPluginInstance } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import type { MonadoConfiguration } from '../types.js';
 import { paths } from '../utils/index.js';
 
 type pluginOptions = {
+	monadoConf?: MonadoConfiguration;
 	useAnalyzer: boolean;
 	useTypescript: boolean;
+	homepage?: string;
 };
 
-export const getPlugins = (options: pluginOptions) => {
+export const getPlugins = ({ useTypescript, useAnalyzer }: pluginOptions) => {
 	const isDevelopment = process.env.NODE_ENV === 'development';
 	const isProduction = process.env.NODE_ENV === 'production';
 	const plugins: WebpackPluginInstance[] = [
@@ -21,7 +24,7 @@ export const getPlugins = (options: pluginOptions) => {
 			template: paths.appHTMLTemplate,
 		}),
 	];
-	if (options.useTypescript) {
+	if (useTypescript) {
 		plugins.push(
 			new ForkTsCheckerWebpackPlugin({
 				async: isDevelopment,
@@ -69,7 +72,7 @@ export const getPlugins = (options: pluginOptions) => {
 					filename: 'static/css/[name]-[contenthash:6].css',
 					chunkFilename: 'static/css/[name]-[contenthash:6].chunks.css',
 				}),
-				options.useAnalyzer && new BundleAnalyzerPlugin(),
+				useAnalyzer && new BundleAnalyzerPlugin(),
 				new CopyWebpackPlugin({
 					patterns: [
 						{
