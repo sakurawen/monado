@@ -15,7 +15,6 @@ const webpackDevConfiguration = async (
 		port: portNumbers(defaultServePort, defaultServePort + 1000),
 	});
 	const proxy = monadoConf?.devServer?.proxy;
-
 	const config: ServerConfiguration = {
 		hot: true,
 		open: true,
