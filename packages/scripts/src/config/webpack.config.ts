@@ -175,12 +175,12 @@ const webpackBuildConfiguration = (
 					use: {
 						loader: 'swc-loader',
 						options: {
-							// env: isProduction
-							// 	? {
-							// 			coreJs: '3.24',
-							// 			mode: 'usage',
-							// 	  }
-							// 	: null,
+							env: isProduction
+								? {
+										coreJs: '3.24',
+										mode: 'usage',
+								  }
+								: null,
 							jsc: {
 								externalHelpers: isProduction,
 								target: 'es5',
