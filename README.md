@@ -4,8 +4,13 @@
 
 ## usage
 
-```js
-npx @monado/cli create <projectName>
+```shell
+# npm usage
+npm install @monado/cli -g
+@monado/cli create <projectName>
+
+# pnpm usage
+pnpm dlx @monado/cli create <projectName>
 ```
 
 # @monado/scripts
