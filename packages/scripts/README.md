@@ -34,19 +34,19 @@ monado-scripts 会从项目文件夹下的`src`目录中按照优先级读取以
 
 ```json
 {
-	"publicPath": "/",
-	"devServer": {
-		"port": 4000,
-		"proxy": {
-			"/api": "http://localhost:9000"
-		}
-	},
-	"alias": {
-		"@": "src"
-	},
-	"plugins": {
-		"bundleAnalyzer": false
-	}
+  "publicPath": "/",
+  "devServer": {
+    "port": 4000,
+    "proxy": {
+      "/api": "http://localhost:9000"
+    }
+  },
+  "alias": {
+    "@": "src"
+  },
+  "plugins": {
+    "bundleAnalyzer": false
+  }
 }
 ```
 
@@ -72,16 +72,16 @@ npm install sass
 
 ```json
 {
-	"devServer": {
-		"proxy": {
-			"/api": {
-				"target": "http://localhost:8000",
-				"pathRewrite": {
-					"^/api": ""
-				}
-			}
-		}
-	}
+  "devServer": {
+    "proxy": {
+      "/api": {
+        "target": "http://localhost:8000",
+        "pathRewrite": {
+          "^/api": ""
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -92,8 +92,8 @@ npm install sass
 
 ```json
 {
-	"alias": {
-		"@": "src"
-	}
+  "alias": {
+    "@": "src"
+  }
 }
 ```
