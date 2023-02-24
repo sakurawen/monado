@@ -7,6 +7,6 @@ import { __ } from './index.js';
  * @returns
  */
 export const getVersion = () => {
-	return fs.readJsonSync(path.resolve(__.dirname(), '../../package.json'))
-		.version as string;
+  return fs.readJsonSync(path.resolve(__.dirname(), '../../package.json'))
+    .version as string;
 };

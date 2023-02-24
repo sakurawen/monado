@@ -5,6 +5,7 @@
   "description": "用于创建react应用的脚手架及其打包工具、基于webpack和swc构建",
   "main": "index.js",
   "scripts": {
+    "lint":"eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

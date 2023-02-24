@@ -9,254 +9,254 @@ import { getStyleloaders } from './loaders.js';
 import { getPlugins } from './plugins.js';
 
 const webpackBuildConfiguration = (
-	monadoConf?: MonadoConfiguration
+  monadoConf?: MonadoConfiguration
 ): Configuration => {
-	const isDevelopment = process.env.NODE_ENV === 'development';
-	const isProduction = process.env.NODE_ENV === 'production';
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isProduction = process.env.NODE_ENV === 'production';
 
-	const projPackageJSON = files.getPackageJson();
+  const projPackageJSON = files.getPackageJson();
 
-	const useMDX = !!(
-		projPackageJSON?.dependencies?.['@mdx-js/react'] ||
+  const useMDX = !!(
+    projPackageJSON?.dependencies?.['@mdx-js/react'] ||
 		projPackageJSON?.devDependencies?.['@mdx-js/react']
-	);
+  );
 
-	const useScss = !!(
-		projPackageJSON?.dependencies?.['sass'] ||
+  const useScss = !!(
+    projPackageJSON?.dependencies?.['sass'] ||
 		projPackageJSON?.devDependencies?.['sass']
-	);
+  );
 
-	const homepage = projPackageJSON.homepage;
-	const useTypescript = fs.existsSync(paths.AppTSConfig);
-	const useAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
-	const enableSourceMap = monadoConf?.sourceMap || false;
-	const customAlias = alias.getCustomAlias(monadoConf?.alias);
+  const homepage = projPackageJSON.homepage;
+  const useTypescript = fs.existsSync(paths.AppTSConfig);
+  const useAnalyzer = monadoConf?.plugins?.bundleAnalyzer === true;
+  const enableSourceMap = monadoConf?.sourceMap || false;
+  const customAlias = alias.getCustomAlias(monadoConf?.alias);
 
-	return {
-		entry: paths.appEntry,
-		output: {
-			clean: true,
-			filename: 'static/js/[name]-[contenthash:6].js',
-			path: paths.appOutput,
-			publicPath: paths.getPublicPath({
-				isDevelopment,
-				monadoConfPublicPath: monadoConf?.publicPath,
-				homepage,
-			}),
-		},
+  return {
+    entry: paths.appEntry,
+    output: {
+      clean: true,
+      filename: 'static/js/[name]-[contenthash:6].js',
+      path: paths.appOutput,
+      publicPath: paths.getPublicPath({
+        isDevelopment,
+        monadoConfPublicPath: monadoConf?.publicPath,
+        homepage,
+      }),
+    },
 
-		target: 'web',
-		mode: isDevelopment ? 'development' : 'production',
-		devtool: isDevelopment
-			? 'cheap-module-source-map'
-			: enableSourceMap
-			? 'cheap-module-source-map'
-			: false,
-		stats: 'errors-only',
-		performance: false,
-		resolve: {
-			symlinks: true,
-			alias: customAlias,
-			modules: ['node_modules', paths.appNodeModules],
-			extensions: [
-				'.js',
-				'.jsx',
-				useTypescript && '.ts',
-				useTypescript && '.tsx',
-				'.json',
-			].filter(Boolean) as string[],
-		},
-		module: {
-			rules: [
-				{
-					test: /\.(png|jpe?g|gif|ico|webp)$/i,
-					type: 'asset/resource',
-					generator: {
-						filename: 'static/image/[name]-[contenthash:6][ext]',
-					},
-				},
-				{
-					test: /\.(m4a|mp3|acc|mp4|mov|ogg|webm)$/i,
-					type: 'asset/resource',
-					generator: {
-						filename: 'static/media/[name]-[contenthash:6][ext]',
-					},
-				},
-				{
-					test: /\.svg$/i,
-					use: [
-						{
-							loader: '@svgr/webpack',
-							options: {
-								prettier: false,
-								svgo: false,
-								svgoConfig: {
-									plugins: [{ removeViewBox: false }],
-								},
-								titleProp: true,
-								ref: true,
-							},
-						},
-						{
-							loader: 'file-loader',
-							options: {
-								name: 'static/image/[name]-[contenthash:6].[ext]',
-							},
-						},
-					],
-					issuer: {
-						and: [/\.(ts?x|js?x|md|mdx)$/],
-					},
-				},
-				{
-					test: /\.(woff|woff2|eot|ttf|otf)$/i,
-					type: 'asset/resource',
-					generator: {
-						filename: 'static/font/[name]-[contenthash:6][ext]',
-					},
-				},
-				{
-					test: /\.css$/i,
-					exclude: /\.module\.css$/,
-					use: getStyleloaders({
-						modules: {
-							mode: 'icss',
-						},
-						sourceMap: isDevelopment,
-						importLoaders: 1,
-						esModule: true,
-					}),
-				},
-				{
-					test: /\.module\.css$/,
-					use: getStyleloaders({
-						modules: {
-							auto: true,
-							mode: 'local',
-							localIdentName: '[local]-[hash:base64:6]',
-						},
-						sourceMap: isDevelopment,
-						importLoaders: 1,
-						esModule: true,
-					}),
-				},
-				useScss && {
-					test: /\.(sass|scss)$/i,
-					exclude: /\.module\.(sass|scss)$/,
-					use: getStyleloaders(
-						{
-							modules: {
-								mode: 'icss',
-							},
-							sourceMap: isDevelopment,
-							importLoaders: 3,
-						},
-						'sass-loader'
-					),
-				},
-				useScss && {
-					test: /\.module\.(sass|scss)$/i,
-					use: getStyleloaders(
-						{
-							modules: {
-								auto: true,
-								mode: 'local',
-								localIdentName: '[local]-[hash:base64:6]',
-							},
-							sourceMap: isDevelopment,
-							importLoaders: 3,
-						},
-						'sass-loader'
-					),
-				},
-				{
-					test: /\.(js|jsx|ts|tsx)$/i,
-					include: paths.appSrc,
-					use: {
-						loader: 'swc-loader',
-						options: {
-							env: isProduction
-								? {
-										coreJs: '3.24',
-										mode: 'usage',
+    target: 'web',
+    mode: isDevelopment ? 'development' : 'production',
+    devtool: isDevelopment
+      ? 'cheap-module-source-map'
+      : enableSourceMap
+        ? 'cheap-module-source-map'
+        : false,
+    stats: 'errors-only',
+    performance: false,
+    resolve: {
+      symlinks: true,
+      alias: customAlias,
+      modules: ['node_modules', paths.appNodeModules],
+      extensions: [
+        '.js',
+        '.jsx',
+        useTypescript && '.ts',
+        useTypescript && '.tsx',
+        '.json',
+      ].filter(Boolean) as string[],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(png|jpe?g|gif|ico|webp)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/image/[name]-[contenthash:6][ext]',
+          },
+        },
+        {
+          test: /\.(m4a|mp3|acc|mp4|mov|ogg|webm)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/media/[name]-[contenthash:6][ext]',
+          },
+        },
+        {
+          test: /\.svg$/i,
+          use: [
+            {
+              loader: '@svgr/webpack',
+              options: {
+                prettier: false,
+                svgo: false,
+                svgoConfig: {
+                  plugins: [{ removeViewBox: false }],
+                },
+                titleProp: true,
+                ref: true,
+              },
+            },
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'static/image/[name]-[contenthash:6].[ext]',
+              },
+            },
+          ],
+          issuer: {
+            and: [/\.(ts?x|js?x|md|mdx)$/],
+          },
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/font/[name]-[contenthash:6][ext]',
+          },
+        },
+        {
+          test: /\.css$/i,
+          exclude: /\.module\.css$/,
+          use: getStyleloaders({
+            modules: {
+              mode: 'icss',
+            },
+            sourceMap: isDevelopment,
+            importLoaders: 1,
+            esModule: true,
+          }),
+        },
+        {
+          test: /\.module\.css$/,
+          use: getStyleloaders({
+            modules: {
+              auto: true,
+              mode: 'local',
+              localIdentName: '[local]-[hash:base64:6]',
+            },
+            sourceMap: isDevelopment,
+            importLoaders: 1,
+            esModule: true,
+          }),
+        },
+        useScss && {
+          test: /\.(sass|scss)$/i,
+          exclude: /\.module\.(sass|scss)$/,
+          use: getStyleloaders(
+            {
+              modules: {
+                mode: 'icss',
+              },
+              sourceMap: isDevelopment,
+              importLoaders: 3,
+            },
+            'sass-loader'
+          ),
+        },
+        useScss && {
+          test: /\.module\.(sass|scss)$/i,
+          use: getStyleloaders(
+            {
+              modules: {
+                auto: true,
+                mode: 'local',
+                localIdentName: '[local]-[hash:base64:6]',
+              },
+              sourceMap: isDevelopment,
+              importLoaders: 3,
+            },
+            'sass-loader'
+          ),
+        },
+        {
+          test: /\.(js|jsx|ts|tsx)$/i,
+          include: paths.appSrc,
+          use: {
+            loader: 'swc-loader',
+            options: {
+              env: isProduction
+                ? {
+                  coreJs: '3.24',
+                  mode: 'usage',
 								  }
-								: null,
-							jsc: {
-								externalHelpers: isProduction,
-								target: 'es5',
-								transform: {
-									react: {
-										runtime: 'automatic',
-										development: isDevelopment,
-										refresh: isDevelopment,
-									},
-								},
-								parser: {
-									syntax: useTypescript ? 'typescript' : 'ecmascript',
-									tsx: true,
-									dynamicImport: true,
-								},
-							},
-						},
-					},
-				},
-				useMDX && {
-					test: /\.mdx?$/,
-					use: [
-						{
-							loader: '@mdx-js/loader',
-							/** @type {import('@mdx-js/loader').Options} */
-							options: {},
-						},
-					],
-				},
-			].filter(Boolean) as RuleSetRule[],
-		},
-		plugins: getPlugins({
-			useAnalyzer,
-			useTypescript,
-		}),
-		cache: isDevelopment
-			? {
-					type: 'filesystem',
-					store: 'pack',
-					cacheDirectory: paths.appWebpackCache,
-					buildDependencies: {
-						config: [__.filename()],
-						tsconfig: [paths.AppTSConfig].filter((f) => fs.existsSync(f)),
-					},
+                : null,
+              jsc: {
+                externalHelpers: isProduction,
+                target: 'es5',
+                transform: {
+                  react: {
+                    runtime: 'automatic',
+                    development: isDevelopment,
+                    refresh: isDevelopment,
+                  },
+                },
+                parser: {
+                  syntax: useTypescript ? 'typescript' : 'ecmascript',
+                  tsx: true,
+                  dynamicImport: true,
+                },
+              },
+            },
+          },
+        },
+        useMDX && {
+          test: /\.mdx?$/,
+          use: [
+            {
+              loader: '@mdx-js/loader',
+              /** @type {import('@mdx-js/loader').Options} */
+              options: {},
+            },
+          ],
+        },
+      ].filter(Boolean) as RuleSetRule[],
+    },
+    plugins: getPlugins({
+      useAnalyzer,
+      useTypescript,
+    }),
+    cache: isDevelopment
+      ? {
+        type: 'filesystem',
+        store: 'pack',
+        cacheDirectory: paths.appWebpackCache,
+        buildDependencies: {
+          config: [__.filename()],
+          tsconfig: [paths.AppTSConfig].filter((f) => fs.existsSync(f)),
+        },
 			  }
-			: false,
-		optimization: {
-			minimize: isProduction,
-			minimizer: isProduction
-				? [
-						new TerserPlugin<SwcOptions>({
-							minify: TerserPlugin.swcMinify,
-							terserOptions: {
-								compress: {
-									unused: true,
-								},
-								mangle: true,
-							},
-						}),
-						new CssMinimizerPlugin(),
+      : false,
+    optimization: {
+      minimize: isProduction,
+      minimizer: isProduction
+        ? [
+          new TerserPlugin<SwcOptions>({
+            minify: TerserPlugin.swcMinify,
+            terserOptions: {
+              compress: {
+                unused: true,
+              },
+              mangle: true,
+            },
+          }),
+          new CssMinimizerPlugin(),
 				  ]
-				: [],
-			sideEffects: true,
-			splitChunks: {
-				chunks: 'all',
-				minSize: 1000 * 30,
-				minChunks: 1,
-				maxAsyncRequests: 6,
-				maxInitialRequests: 3,
-			},
-			usedExports: true,
-		},
-		infrastructureLogging: {
-			level: 'error',
-		},
-	};
+        : [],
+      sideEffects: true,
+      splitChunks: {
+        chunks: 'all',
+        minSize: 1000 * 30,
+        minChunks: 1,
+        maxAsyncRequests: 6,
+        maxInitialRequests: 3,
+      },
+      usedExports: true,
+    },
+    infrastructureLogging: {
+      level: 'error',
+    },
+  };
 };
 
 export default webpackBuildConfiguration;

@@ -8,11 +8,11 @@ const cli = cac('monado-scripts');
 cli.version(pkg.getVersion());
 
 cli.command('build', '构建应用').action(() => {
-	build();
+  build();
 });
 
 cli.command('start', '启动开发服务器').action(() => {
-	start();
+  start();
 });
 
 cli.help();

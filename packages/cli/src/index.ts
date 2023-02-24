@@ -12,32 +12,32 @@ type Action = {
 };
 
 const actionsMap: Record<string, Action> = {
-	'create <projectName>': {
-		alias: 'crt',
-		desc: 'create react template',
-		examples: ['monado create|crt <projectName>'],
-		script: create,
-	},
+  'create <projectName>': {
+    alias: 'crt',
+    desc: 'create react template',
+    examples: ['monado create|crt <projectName>'],
+    script: create,
+  },
 };
 
 Object.keys(actionsMap).forEach((action) => {
-	program
-		.command(action)
-		.alias(actionsMap[action].alias)
-		.description(actionsMap[action].desc)
-		.action((argv: string) => {
-			actionsMap[action].script(argv);
-		});
+  program
+    .command(action)
+    .alias(actionsMap[action].alias)
+    .description(actionsMap[action].desc)
+    .action((argv: string) => {
+      actionsMap[action].script(argv);
+    });
 });
 
 program.on('--help', () => {
-	console.log('\nExamples:');
-	Object.keys(actionsMap).forEach((action) => {
-		actionsMap[action].examples.forEach((item) => {
-			console.log('  ' + item);
-		});
-	});
-	console.log('\n');
+  console.log('\nExamples:');
+  Object.keys(actionsMap).forEach((action) => {
+    actionsMap[action].examples.forEach((item) => {
+      console.log('  ' + item);
+    });
+  });
+  console.log('\n');
 });
 
 program.version(getVersion()).parse(process.argv);

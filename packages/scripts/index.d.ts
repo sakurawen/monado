@@ -1,7 +1,6 @@
 /// <reference types="react-dom" />
 /// <reference types="react" />
 /// <reference types="@types/node" />
-
 declare module '*.avif' {
 	const src: string;
 	export default src;
@@ -64,7 +63,7 @@ declare module '*.module.sass' {
 }
 
 declare module '*.mdx' {
-	let MDXComponent: (props: any) => JSX.Element;
+	let MDXComponent: (props:any) => JSX.Element;
 	export default MDXComponent;
 }
 

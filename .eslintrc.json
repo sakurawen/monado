@@ -20,7 +20,8 @@
 	},
 	"rules": {
 		"semi": ["error", "always"],
-		"no-unused-vars": "error",
+    "indent":["error",2],
+		"no-unused-vars": "off",
 		"no-console": "off",
 		"no-mixed-spaces-and-tabs": "off"
 	}

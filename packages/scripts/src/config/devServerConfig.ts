@@ -7,59 +7,59 @@ import { log } from '../utils/index.js';
 import { paths } from '../utils/index.js';
 
 const webpackDevConfiguration = async (
-	monadoConf?: MonadoConfiguration
+  monadoConf?: MonadoConfiguration
 ): Promise<WebpackDevServer> => {
-	const defaultServePort = (monadoConf?.devServer?.port as number) || 5000;
+  const defaultServePort = (monadoConf?.devServer?.port as number) || 5000;
 
-	const port = await getPort({
-		port: portNumbers(defaultServePort, defaultServePort + 1000),
-	});
-	const proxy = monadoConf?.devServer?.proxy;
-	const config: ServerConfiguration = {
-		hot: true,
-		open: true,
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Methods': '*',
-			'Access-Control-Allow-Headers': '*',
-		},
-		compress: true,
-		static: {
-			directory: paths.appPublicDirectory,
-		},
-		historyApiFallback: {
-			index: '/',
-			disableDotRule: true,
-		},
+  const port = await getPort({
+    port: portNumbers(defaultServePort, defaultServePort + 1000),
+  });
+  const proxy = monadoConf?.devServer?.proxy;
+  const config: ServerConfiguration = {
+    hot: true,
+    open: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': '*',
+      'Access-Control-Allow-Headers': '*',
+    },
+    compress: true,
+    static: {
+      directory: paths.appPublicDirectory,
+    },
+    historyApiFallback: {
+      index: '/',
+      disableDotRule: true,
+    },
 
-		allowedHosts: 'all',
-		port,
-		proxy,
-		client: {
-			logging: 'error',
-			overlay: {
-				errors: true,
-				warnings: false,
-			},
-		},
-	};
+    allowedHosts: 'all',
+    port,
+    proxy,
+    client: {
+      logging: 'error',
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
+  };
 
-	const compiler = Webpack(webpackBuildConfiguration(monadoConf));
-	compiler.hooks.invalid.tap('invalid', () => {
-		log.info('wait', 'compiling...');
-	});
+  const compiler = Webpack(webpackBuildConfiguration(monadoConf));
+  compiler.hooks.invalid.tap('invalid', () => {
+    log.info('wait', 'compiling...');
+  });
 
-	compiler.hooks.done.tap('done', () => {
-		log.success('ready', 'compiler successful');
-	});
+  compiler.hooks.done.tap('done', () => {
+    log.success('ready', 'compiler successful');
+  });
 
-	compiler.hooks.failed.tap('failed', (err) => {
-		log.fail('error', 'compiler failed:', err.toString());
-	});
+  compiler.hooks.failed.tap('failed', (err) => {
+    log.fail('error', 'compiler failed:', err.toString());
+  });
 
-	const devSever = new WebpackDevServer(config, compiler);
+  const devSever = new WebpackDevServer(config, compiler);
 
-	return devSever;
+  return devSever;
 };
 
 export default webpackDevConfiguration;
